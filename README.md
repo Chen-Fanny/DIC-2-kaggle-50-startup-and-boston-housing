@@ -5,7 +5,15 @@
 > **[https://chen-fanny.github.io/DIC-2-kaggle-50-startup-and-boston-housing/](https://chen-fanny.github.io/DIC-2-kaggle-50-startup-and-boston-housing/)**
 >
 > 📦 **GitHub 專案倉庫 (Repository URL):**  
-> **[https://github.com/Chen-Fanny/DIC-2-kaggle-50-startup-and-boston-housing](https://github.com/Chen-Fanny/DIC-2-kaggle-50-startup-and-boston-housing)**
+> **[https://github.com/Chen-Fanny/DIC-2-kaggle-50-startup-and-boston-housing](https://github.com/Chen-Fanny/DIC-2-kaggle-50-startup-and-boston-housing
+> 
+> ********示意圖**********
+> <img width="2715" height="1448" alt="image" src="https://github.com/user-attachments/assets/3a269c23-cafa-4cae-b14a-381224f460f3" />
+<img width="2628" height="2941" alt="image" src="https://github.com/user-attachments/assets/01c5cdd9-375c-4bf8-b235-148d38f0ba40" />
+<img width="2628" height="2481" alt="image" src="https://github.com/user-attachments/assets/3f75a247-2e94-45c6-8d0c-1bf958f24310" />
+<img width="2786" height="2709" alt="image" src="https://github.com/user-attachments/assets/0fd62588-a0ce-4e4b-a669-f982eb5b9fd9" />
+
+
 
 本專案為針對期中多元線性迴歸（Multiple Linear Regression）與特徵選擇（Feature Selection）作業之完整、可重現且符合產業標準 **CRISP-DM** 規範之雙專案機器學習系統，具備高可擴展之模組化工作流程（Reusable ML Workflow）與現代化互動式 Web 成果展示平台。
 
