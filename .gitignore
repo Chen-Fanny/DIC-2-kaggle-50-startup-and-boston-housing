@@ -1,0 +1,35 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Credentials & secrets
+kaggle.json
+*.key
+*.pem
+.env
+
+# Large Kaggle competition datasets & submissions (>10MB)
+data/train.csv
+data/test.csv
+data/sample_submission.csv
+results/submission.csv
+
+# Binary model files (Keep repository lightweight for GitHub Pages)
+*.joblib
+*.pkl
+*.model
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log

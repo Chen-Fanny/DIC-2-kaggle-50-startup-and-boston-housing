@@ -1,0 +1,1472 @@
+{
+  "flood": {
+    "project_id": "flood",
+    "name": "Flood Probability Prediction",
+    "name_zh": "洪水機率預測",
+    "subtitle": "Multiple Linear Regression & Feature Selection (Kaggle Playground S4E5 · CRISP-DM)",
+    "target_col": "FloodProbability",
+    "target_name_zh": "洪水發生機率 (FloodProbability)",
+    "unit_symbol": "",
+    "unit_position": "suffix",
+    "total_samples": 1117957,
+    "train_samples": 715492,
+    "val_samples": 178873,
+    "test_samples": 223592,
+    "k_max": 20,
+    "exhaustive_k_max": 5,
+    "features_count": 20,
+    "raw_intercept": -0.05329908,
+    "raw_coefficients": {
+      "MonsoonIntensity": 0.005612,
+      "TopographyDrainage": 0.005648,
+      "ClimateChange": 0.005663,
+      "Landslides": 0.005642,
+      "CoastalVulnerability": 0.005671,
+      "RiverManagement": 0.005666,
+      "DamsQuality": 0.005655,
+      "DrainageSystems": 0.005636,
+      "DeterioratingInfrastructure": 0.005616,
+      "Deforestation": 0.005679,
+      "Urbanization": 0.005658,
+      "Siltation": 0.005638,
+      "AgriculturalPractices": 0.005635,
+      "Encroachments": 0.00565,
+      "WetlandLoss": 0.005635,
+      "Watersheds": 0.005647,
+      "IneffectiveDisasterPreparedness": 0.00564,
+      "PopulationScore": 0.005678,
+      "InadequatePlanning": 0.005609,
+      "PoliticalFactors": 0.005649
+    },
+    "optimal_k_per_method": {
+      "Lasso L1": {
+        "k": 20,
+        "rmse": 0.02007,
+        "r2": 0.84565
+      },
+      "Forward SFS": {
+        "k": 20,
+        "rmse": 0.02007,
+        "r2": 0.84565
+      },
+      "RFE": {
+        "k": 20,
+        "rmse": 0.02007,
+        "r2": 0.84565
+      },
+      "ElasticNet": {
+        "k": 20,
+        "rmse": 0.02007,
+        "r2": 0.84565
+      },
+      "Exhaustive Search": {
+        "k": 5,
+        "rmse": 0.04623,
+        "r2": 0.18133
+      }
+    },
+    "best_overall": {
+      "method": "Baseline (All 20 Features)",
+      "k": 20,
+      "rmse": 0.02007,
+      "r2": 0.84565,
+      "holdout_metrics": {
+        "R2": 0.84488,
+        "Adj_R2": 0.84487,
+        "RMSE": 0.02008,
+        "MAE": 0.0158,
+        "MSE": 0.000403
+      }
+    },
+    "baseline_metrics": {
+      "R2": 0.84565,
+      "Adj_R2": 0.84563,
+      "RMSE": 0.02007,
+      "MAE": 0.0158,
+      "MSE": 0.000403
+    },
+    "comparison_table": [
+      {
+        "Model": "Lasso L1",
+        "Number of Features": 5,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization",
+        "MAE": 0.037427270532228,
+        "MSE": 0.0021490142854173,
+        "RMSE": 0.0463574620251945,
+        "R²": 0.176873286560894,
+        "Adjusted R²": 0.1768502770981804
+      },
+      {
+        "Model": "Forward SFS",
+        "Number of Features": 5,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality",
+        "MAE": 0.0373174825289551,
+        "MSE": 0.0021373824653849,
+        "RMSE": 0.0462318338959743,
+        "R²": 0.1813285672258715,
+        "Adjusted R²": 0.1813056823048751
+      },
+      {
+        "Model": "RFE",
+        "Number of Features": 5,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides",
+        "MAE": 0.0373442753339993,
+        "MSE": 0.0021405273363674,
+        "RMSE": 0.0462658333586179,
+        "R²": 0.1801240022615829,
+        "Adjusted R²": 0.1801010836685015
+      },
+      {
+        "Model": "ElasticNet",
+        "Number of Features": 5,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization",
+        "MAE": 0.037427270532228,
+        "MSE": 0.0021490142854173,
+        "RMSE": 0.0463574620251945,
+        "R²": 0.176873286560894,
+        "Adjusted R²": 0.1768502770981804
+      },
+      {
+        "Model": "Exhaustive Search",
+        "Number of Features": 5,
+        "Selected Features": "MonsoonIntensity, TopographyDrainage, ClimateChange, DamsQuality, Siltation",
+        "MAE": 0.0373174825289551,
+        "MSE": 0.0021373824653849,
+        "RMSE": 0.0462318338959743,
+        "R²": 0.1813285672258719,
+        "Adjusted R²": 0.1813056823048754
+      },
+      {
+        "Model": "Baseline (All Features)",
+        "Number of Features": 20,
+        "Selected Features": "All 20 Features",
+        "MAE": 0.0157969285340131,
+        "MSE": 0.000402985417645,
+        "RMSE": 0.0200744966971799,
+        "R²": 0.845646413501776,
+        "Adjusted R²": 0.8456291530197576
+      }
+    ],
+    "fs_curves": [
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 1,
+        "Selected Features": "CoastalVulnerability",
+        "RMSE": 0.0503137028268438,
+        "R-squared": 0.0303835954552268
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 2,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage",
+        "RMSE": 0.0493588684763985,
+        "R-squared": 0.0668364120486373
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 3,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors",
+        "RMSE": 0.048405561537416,
+        "R-squared": 0.1025341765931162
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 4,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore",
+        "RMSE": 0.0473726357649226,
+        "R-squared": 0.1404275409883537
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 5,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization",
+        "RMSE": 0.0463574620251945,
+        "R-squared": 0.176873286560894
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 6,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality",
+        "RMSE": 0.0452285300221252,
+        "R-squared": 0.2164759351880599
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 7,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments",
+        "RMSE": 0.0441506718871646,
+        "R-squared": 0.2533758590585176
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 8,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement",
+        "RMSE": 0.0429811857394938,
+        "R-squared": 0.2924059397468261
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 9,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds",
+        "RMSE": 0.0417024331702425,
+        "R-squared": 0.3338835114041439
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 10,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness",
+        "RMSE": 0.0404258542441789,
+        "R-squared": 0.3740411189791941
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 11,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides",
+        "RMSE": 0.0390082952830511,
+        "R-squared": 0.4171707532757314
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 12,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning",
+        "RMSE": 0.0375597676827967,
+        "R-squared": 0.4596524475290237
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 13,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems",
+        "RMSE": 0.0360100064264324,
+        "R-squared": 0.5033232946028192
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 14,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems, WetlandLoss",
+        "RMSE": 0.03431468600202,
+        "R-squared": 0.5489886697239241
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 15,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems, WetlandLoss, Siltation",
+        "RMSE": 0.0324920904642783,
+        "R-squared": 0.5956264866627466
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 16,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems, WetlandLoss, Siltation, Deforestation",
+        "RMSE": 0.0304738220881773,
+        "R-squared": 0.6443021424340347
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 17,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems, WetlandLoss, Siltation, Deforestation, AgriculturalPractices",
+        "RMSE": 0.028313143722143,
+        "R-squared": 0.6929539032347577
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 18,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems, WetlandLoss, Siltation, Deforestation, AgriculturalPractices, ClimateChange",
+        "RMSE": 0.0258568271837467,
+        "R-squared": 0.7439187037419341
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 19,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems, WetlandLoss, Siltation, Deforestation, AgriculturalPractices, ClimateChange, DeterioratingInfrastructure",
+        "RMSE": 0.0231368358051887,
+        "R-squared": 0.7949615439233355
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 20,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems, WetlandLoss, Siltation, Deforestation, AgriculturalPractices, ClimateChange, DeterioratingInfrastructure, MonsoonIntensity",
+        "RMSE": 0.0200744966971799,
+        "R-squared": 0.8456464135017765
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 1,
+        "Selected Features": "TopographyDrainage",
+        "RMSE": 0.0501861801706835,
+        "R-squared": 0.0352924515424116
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 2,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity",
+        "RMSE": 0.049242164391256,
+        "R-squared": 0.0712439383915845
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 3,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange",
+        "RMSE": 0.0482915632331374,
+        "R-squared": 0.1067563818872576
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 4,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation",
+        "RMSE": 0.0472947731284721,
+        "R-squared": 0.1432508407354337
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 5,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality",
+        "RMSE": 0.0462318338959743,
+        "R-squared": 0.1813285672258715
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 6,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore",
+        "RMSE": 0.0451228418356146,
+        "R-squared": 0.2201334710323838
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 7,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore, DeterioratingInfrastructure",
+        "RMSE": 0.0439792173038374,
+        "R-squared": 0.2591634751725363
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 8,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore, DeterioratingInfrastructure, CoastalVulnerability",
+        "RMSE": 0.0428617374834757,
+        "R-squared": 0.2963333991584054
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 9,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore, DeterioratingInfrastructure, CoastalVulnerability, Watersheds",
+        "RMSE": 0.041588706689063,
+        "R-squared": 0.3375116828517618
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 10,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore, DeterioratingInfrastructure, CoastalVulnerability, Watersheds, Urbanization",
+        "RMSE": 0.0402832017911301,
+        "R-squared": 0.3784510206500164
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 11,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore, DeterioratingInfrastructure, CoastalVulnerability, Watersheds, Urbanization, PoliticalFactors",
+        "RMSE": 0.0389000190507776,
+        "R-squared": 0.4204018081716678
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 12,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore, DeterioratingInfrastructure, CoastalVulnerability, Watersheds, Urbanization, PoliticalFactors, DrainageSystems",
+        "RMSE": 0.0374888888343617,
+        "R-squared": 0.4616898975724661
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 13,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore, DeterioratingInfrastructure, CoastalVulnerability, Watersheds, Urbanization, PoliticalFactors, DrainageSystems, Encroachments",
+        "RMSE": 0.035943052643036,
+        "R-squared": 0.5051685300101338
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 14,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore, DeterioratingInfrastructure, CoastalVulnerability, Watersheds, Urbanization, PoliticalFactors, DrainageSystems, Encroachments, RiverManagement",
+        "RMSE": 0.0342528415489065,
+        "R-squared": 0.550612896392629
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 15,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore, DeterioratingInfrastructure, CoastalVulnerability, Watersheds, Urbanization, PoliticalFactors, DrainageSystems, Encroachments, RiverManagement, InadequatePlanning",
+        "RMSE": 0.0324664396649323,
+        "R-squared": 0.5962646979584637
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 16,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore, DeterioratingInfrastructure, CoastalVulnerability, Watersheds, Urbanization, PoliticalFactors, DrainageSystems, Encroachments, RiverManagement, InadequatePlanning, Deforestation",
+        "RMSE": 0.030497113130922,
+        "R-squared": 0.6437582172304805
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 17,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore, DeterioratingInfrastructure, CoastalVulnerability, Watersheds, Urbanization, PoliticalFactors, DrainageSystems, Encroachments, RiverManagement, InadequatePlanning, Deforestation, IneffectiveDisasterPreparedness",
+        "RMSE": 0.0283605677773621,
+        "R-squared": 0.6919244473593773
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 18,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore, DeterioratingInfrastructure, CoastalVulnerability, Watersheds, Urbanization, PoliticalFactors, DrainageSystems, Encroachments, RiverManagement, InadequatePlanning, Deforestation, IneffectiveDisasterPreparedness, WetlandLoss",
+        "RMSE": 0.0259875309376313,
+        "R-squared": 0.7413232281042936
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 19,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore, DeterioratingInfrastructure, CoastalVulnerability, Watersheds, Urbanization, PoliticalFactors, DrainageSystems, Encroachments, RiverManagement, InadequatePlanning, Deforestation, IneffectiveDisasterPreparedness, WetlandLoss, AgriculturalPractices",
+        "RMSE": 0.0232568884309071,
+        "R-squared": 0.7928282126802335
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 20,
+        "Selected Features": "TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality, PopulationScore, DeterioratingInfrastructure, CoastalVulnerability, Watersheds, Urbanization, PoliticalFactors, DrainageSystems, Encroachments, RiverManagement, InadequatePlanning, Deforestation, IneffectiveDisasterPreparedness, WetlandLoss, AgriculturalPractices, Landslides",
+        "RMSE": 0.0200744966971799,
+        "R-squared": 0.8456464135017755
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 1,
+        "Selected Features": "RiverManagement",
+        "RMSE": 0.0502414990714744,
+        "R-squared": 0.0331645361179183
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 2,
+        "Selected Features": "RiverManagement, Siltation",
+        "RMSE": 0.0493155274848115,
+        "R-squared": 0.068474475474457
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 3,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage",
+        "RMSE": 0.0483343305764489,
+        "R-squared": 0.1051735558305395
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 4,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality",
+        "RMSE": 0.04730890594658,
+        "R-squared": 0.1427387296350351
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 5,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides",
+        "RMSE": 0.0462658333586179,
+        "R-squared": 0.1801240022615829
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 6,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore",
+        "RMSE": 0.0451630108456773,
+        "R-squared": 0.2187443559495234
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 7,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore, IneffectiveDisasterPreparedness",
+        "RMSE": 0.0440780381738229,
+        "R-squared": 0.2558304299028278
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 8,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore, IneffectiveDisasterPreparedness, PoliticalFactors",
+        "RMSE": 0.042900463155702,
+        "R-squared": 0.2950612961620646
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 9,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore, IneffectiveDisasterPreparedness, PoliticalFactors, ClimateChange",
+        "RMSE": 0.0416351453033955,
+        "R-squared": 0.3360313667622391
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 10,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore, IneffectiveDisasterPreparedness, PoliticalFactors, ClimateChange, Urbanization",
+        "RMSE": 0.0403470402716697,
+        "R-squared": 0.3764794701802815
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 11,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore, IneffectiveDisasterPreparedness, PoliticalFactors, ClimateChange, Urbanization, WetlandLoss",
+        "RMSE": 0.0389436087750124,
+        "R-squared": 0.4191021337166128
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 12,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore, IneffectiveDisasterPreparedness, PoliticalFactors, ClimateChange, Urbanization, WetlandLoss, Watersheds",
+        "RMSE": 0.0374172632961109,
+        "R-squared": 0.4637449020894137
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 13,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore, IneffectiveDisasterPreparedness, PoliticalFactors, ClimateChange, Urbanization, WetlandLoss, Watersheds, InadequatePlanning",
+        "RMSE": 0.0359069818699707,
+        "R-squared": 0.5061612112744436
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 14,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore, IneffectiveDisasterPreparedness, PoliticalFactors, ClimateChange, Urbanization, WetlandLoss, Watersheds, InadequatePlanning, CoastalVulnerability",
+        "RMSE": 0.0342110746683028,
+        "R-squared": 0.5517081663424327
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 15,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore, IneffectiveDisasterPreparedness, PoliticalFactors, ClimateChange, Urbanization, WetlandLoss, Watersheds, InadequatePlanning, CoastalVulnerability, DrainageSystems",
+        "RMSE": 0.0324425572011017,
+        "R-squared": 0.5968584586187871
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 16,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore, IneffectiveDisasterPreparedness, PoliticalFactors, ClimateChange, Urbanization, WetlandLoss, Watersheds, InadequatePlanning, CoastalVulnerability, DrainageSystems, Encroachments",
+        "RMSE": 0.0304805659045503,
+        "R-squared": 0.6441446940870539
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 17,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore, IneffectiveDisasterPreparedness, PoliticalFactors, ClimateChange, Urbanization, WetlandLoss, Watersheds, InadequatePlanning, CoastalVulnerability, DrainageSystems, Encroachments, Deforestation",
+        "RMSE": 0.0282743111791212,
+        "R-squared": 0.6937955762186094
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 18,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore, IneffectiveDisasterPreparedness, PoliticalFactors, ClimateChange, Urbanization, WetlandLoss, Watersheds, InadequatePlanning, CoastalVulnerability, DrainageSystems, Encroachments, Deforestation, AgriculturalPractices",
+        "RMSE": 0.0258568271837468,
+        "R-squared": 0.7439187037419328
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 19,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore, IneffectiveDisasterPreparedness, PoliticalFactors, ClimateChange, Urbanization, WetlandLoss, Watersheds, InadequatePlanning, CoastalVulnerability, DrainageSystems, Encroachments, Deforestation, AgriculturalPractices, DeterioratingInfrastructure",
+        "RMSE": 0.0231368358051888,
+        "R-squared": 0.7949615439233345
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 20,
+        "Selected Features": "RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides, PopulationScore, IneffectiveDisasterPreparedness, PoliticalFactors, ClimateChange, Urbanization, WetlandLoss, Watersheds, InadequatePlanning, CoastalVulnerability, DrainageSystems, Encroachments, Deforestation, AgriculturalPractices, DeterioratingInfrastructure, MonsoonIntensity",
+        "RMSE": 0.0200744966971799,
+        "R-squared": 0.8456464135017757
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 1,
+        "Selected Features": "CoastalVulnerability",
+        "RMSE": 0.0503137028268438,
+        "R-squared": 0.0303835954552268
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 2,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage",
+        "RMSE": 0.0493588684763985,
+        "R-squared": 0.0668364120486373
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 3,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors",
+        "RMSE": 0.048405561537416,
+        "R-squared": 0.1025341765931162
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 4,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore",
+        "RMSE": 0.0473726357649226,
+        "R-squared": 0.1404275409883537
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 5,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization",
+        "RMSE": 0.0463574620251945,
+        "R-squared": 0.176873286560894
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 6,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality",
+        "RMSE": 0.0452285300221252,
+        "R-squared": 0.2164759351880599
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 7,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments",
+        "RMSE": 0.0441506718871646,
+        "R-squared": 0.2533758590585176
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 8,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement",
+        "RMSE": 0.0429811857394938,
+        "R-squared": 0.2924059397468261
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 9,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds",
+        "RMSE": 0.0417024331702425,
+        "R-squared": 0.3338835114041439
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 10,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness",
+        "RMSE": 0.0404258542441789,
+        "R-squared": 0.3740411189791941
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 11,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides",
+        "RMSE": 0.0390082952830511,
+        "R-squared": 0.4171707532757314
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 12,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning",
+        "RMSE": 0.0375597676827967,
+        "R-squared": 0.4596524475290237
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 13,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems",
+        "RMSE": 0.0360100064264324,
+        "R-squared": 0.5033232946028192
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 14,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems, WetlandLoss",
+        "RMSE": 0.03431468600202,
+        "R-squared": 0.5489886697239241
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 15,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems, WetlandLoss, Siltation",
+        "RMSE": 0.0324920904642783,
+        "R-squared": 0.5956264866627466
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 16,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems, WetlandLoss, Siltation, Deforestation",
+        "RMSE": 0.0304738220881773,
+        "R-squared": 0.6443021424340347
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 17,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems, WetlandLoss, Siltation, Deforestation, AgriculturalPractices",
+        "RMSE": 0.028313143722143,
+        "R-squared": 0.6929539032347577
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 18,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems, WetlandLoss, Siltation, Deforestation, AgriculturalPractices, ClimateChange",
+        "RMSE": 0.0258568271837467,
+        "R-squared": 0.7439187037419341
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 19,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems, WetlandLoss, Siltation, Deforestation, AgriculturalPractices, ClimateChange, DeterioratingInfrastructure",
+        "RMSE": 0.0231368358051887,
+        "R-squared": 0.7949615439233355
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 20,
+        "Selected Features": "CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization, DamsQuality, Encroachments, RiverManagement, Watersheds, IneffectiveDisasterPreparedness, Landslides, InadequatePlanning, DrainageSystems, WetlandLoss, Siltation, Deforestation, AgriculturalPractices, ClimateChange, DeterioratingInfrastructure, MonsoonIntensity",
+        "RMSE": 0.0200744966971799,
+        "R-squared": 0.8456464135017765
+      },
+      {
+        "Method": "Exhaustive Search",
+        "Number of Features": 1,
+        "Selected Features": "TopographyDrainage",
+        "RMSE": 0.0501861801706835,
+        "R-squared": 0.0352924515424116
+      },
+      {
+        "Method": "Exhaustive Search",
+        "Number of Features": 2,
+        "Selected Features": "MonsoonIntensity, TopographyDrainage",
+        "RMSE": 0.049242164391256,
+        "R-squared": 0.071243938391585
+      },
+      {
+        "Method": "Exhaustive Search",
+        "Number of Features": 3,
+        "Selected Features": "MonsoonIntensity, TopographyDrainage, ClimateChange",
+        "RMSE": 0.0482915632331374,
+        "R-squared": 0.1067563818872582
+      },
+      {
+        "Method": "Exhaustive Search",
+        "Number of Features": 4,
+        "Selected Features": "MonsoonIntensity, TopographyDrainage, ClimateChange, Siltation",
+        "RMSE": 0.0472947731284721,
+        "R-squared": 0.1432508407354339
+      },
+      {
+        "Method": "Exhaustive Search",
+        "Number of Features": 5,
+        "Selected Features": "MonsoonIntensity, TopographyDrainage, ClimateChange, DamsQuality, Siltation",
+        "RMSE": 0.0462318338959743,
+        "R-squared": 0.1813285672258719
+      }
+    ],
+    "rankings": [
+      {
+        "Rank": 1,
+        "Lasso_L1": "CoastalVulnerability",
+        "Forward_SFS": "TopographyDrainage",
+        "RFE": "RiverManagement",
+        "ElasticNet": "CoastalVulnerability"
+      },
+      {
+        "Rank": 2,
+        "Lasso_L1": "TopographyDrainage",
+        "Forward_SFS": "MonsoonIntensity",
+        "RFE": "Siltation",
+        "ElasticNet": "TopographyDrainage"
+      },
+      {
+        "Rank": 3,
+        "Lasso_L1": "PoliticalFactors",
+        "Forward_SFS": "ClimateChange",
+        "RFE": "TopographyDrainage",
+        "ElasticNet": "PoliticalFactors"
+      },
+      {
+        "Rank": 4,
+        "Lasso_L1": "PopulationScore",
+        "Forward_SFS": "Siltation",
+        "RFE": "DamsQuality",
+        "ElasticNet": "PopulationScore"
+      },
+      {
+        "Rank": 5,
+        "Lasso_L1": "Urbanization",
+        "Forward_SFS": "DamsQuality",
+        "RFE": "Landslides",
+        "ElasticNet": "Urbanization"
+      },
+      {
+        "Rank": 6,
+        "Lasso_L1": "DamsQuality",
+        "Forward_SFS": "PopulationScore",
+        "RFE": "PopulationScore",
+        "ElasticNet": "DamsQuality"
+      },
+      {
+        "Rank": 7,
+        "Lasso_L1": "Encroachments",
+        "Forward_SFS": "DeterioratingInfrastructure",
+        "RFE": "IneffectiveDisasterPreparedness",
+        "ElasticNet": "Encroachments"
+      },
+      {
+        "Rank": 8,
+        "Lasso_L1": "RiverManagement",
+        "Forward_SFS": "CoastalVulnerability",
+        "RFE": "PoliticalFactors",
+        "ElasticNet": "RiverManagement"
+      },
+      {
+        "Rank": 9,
+        "Lasso_L1": "Watersheds",
+        "Forward_SFS": "Watersheds",
+        "RFE": "ClimateChange",
+        "ElasticNet": "Watersheds"
+      },
+      {
+        "Rank": 10,
+        "Lasso_L1": "IneffectiveDisasterPreparedness",
+        "Forward_SFS": "Urbanization",
+        "RFE": "Urbanization",
+        "ElasticNet": "IneffectiveDisasterPreparedness"
+      },
+      {
+        "Rank": 11,
+        "Lasso_L1": "Landslides",
+        "Forward_SFS": "PoliticalFactors",
+        "RFE": "WetlandLoss",
+        "ElasticNet": "Landslides"
+      },
+      {
+        "Rank": 12,
+        "Lasso_L1": "InadequatePlanning",
+        "Forward_SFS": "DrainageSystems",
+        "RFE": "Watersheds",
+        "ElasticNet": "InadequatePlanning"
+      },
+      {
+        "Rank": 13,
+        "Lasso_L1": "DrainageSystems",
+        "Forward_SFS": "Encroachments",
+        "RFE": "InadequatePlanning",
+        "ElasticNet": "DrainageSystems"
+      },
+      {
+        "Rank": 14,
+        "Lasso_L1": "WetlandLoss",
+        "Forward_SFS": "RiverManagement",
+        "RFE": "CoastalVulnerability",
+        "ElasticNet": "WetlandLoss"
+      },
+      {
+        "Rank": 15,
+        "Lasso_L1": "Siltation",
+        "Forward_SFS": "InadequatePlanning",
+        "RFE": "DrainageSystems",
+        "ElasticNet": "Siltation"
+      },
+      {
+        "Rank": 16,
+        "Lasso_L1": "Deforestation",
+        "Forward_SFS": "Deforestation",
+        "RFE": "Encroachments",
+        "ElasticNet": "Deforestation"
+      },
+      {
+        "Rank": 17,
+        "Lasso_L1": "AgriculturalPractices",
+        "Forward_SFS": "IneffectiveDisasterPreparedness",
+        "RFE": "Deforestation",
+        "ElasticNet": "AgriculturalPractices"
+      },
+      {
+        "Rank": 18,
+        "Lasso_L1": "ClimateChange",
+        "Forward_SFS": "WetlandLoss",
+        "RFE": "AgriculturalPractices",
+        "ElasticNet": "ClimateChange"
+      },
+      {
+        "Rank": 19,
+        "Lasso_L1": "DeterioratingInfrastructure",
+        "Forward_SFS": "AgriculturalPractices",
+        "RFE": "DeterioratingInfrastructure",
+        "ElasticNet": "DeterioratingInfrastructure"
+      },
+      {
+        "Rank": 20,
+        "Lasso_L1": "MonsoonIntensity",
+        "Forward_SFS": "Landslides",
+        "RFE": "MonsoonIntensity",
+        "ElasticNet": "MonsoonIntensity"
+      }
+    ],
+    "vif": [
+      {
+        "Feature": "MonsoonIntensity",
+        "VIF": 1.0024
+      },
+      {
+        "Feature": "TopographyDrainage",
+        "VIF": 1.0028
+      },
+      {
+        "Feature": "RiverManagement",
+        "VIF": 1.0021
+      },
+      {
+        "Feature": "Deforestation",
+        "VIF": 1.0031
+      },
+      {
+        "Feature": "Urbanization",
+        "VIF": 1.0029
+      },
+      {
+        "Feature": "ClimateChange",
+        "VIF": 1.0025
+      },
+      {
+        "Feature": "DamsQuality",
+        "VIF": 1.0032
+      },
+      {
+        "Feature": "Siltation",
+        "VIF": 1.0019
+      },
+      {
+        "Feature": "AgriculturalPractices",
+        "VIF": 1.0036
+      },
+      {
+        "Feature": "Encroachments",
+        "VIF": 1.0027
+      },
+      {
+        "Feature": "IneffectiveDisasterPreparedness",
+        "VIF": 1.0029
+      },
+      {
+        "Feature": "DrainageSystems",
+        "VIF": 1.0033
+      },
+      {
+        "Feature": "CoastalVulnerability",
+        "VIF": 1.0028
+      },
+      {
+        "Feature": "Landslides",
+        "VIF": 1.003
+      },
+      {
+        "Feature": "Watersheds",
+        "VIF": 1.0026
+      },
+      {
+        "Feature": "DeterioratingInfrastructure",
+        "VIF": 1.0025
+      },
+      {
+        "Feature": "PopulationScore",
+        "VIF": 1.0034
+      },
+      {
+        "Feature": "WetlandLoss",
+        "VIF": 1.0035
+      },
+      {
+        "Feature": "InadequatePlanning",
+        "VIF": 1.0027
+      },
+      {
+        "Feature": "PoliticalFactors",
+        "VIF": 1.0017
+      }
+    ],
+    "gallery_base_path": "results/"
+  },
+  "startup": {
+    "project_id": "startup",
+    "name": "50 Startups Profit Prediction",
+    "name_zh": "50 家新創企業淨利潤預測",
+    "subtitle": "Multiple Linear Regression & Feature Selection (50 Startups Dataset · CRISP-DM)",
+    "target_col": "Profit",
+    "target_name_zh": "企業淨利潤 (Profit)",
+    "unit_symbol": "$",
+    "unit_position": "prefix",
+    "total_samples": 50,
+    "train_samples": 32,
+    "val_samples": 8,
+    "test_samples": 10,
+    "k_max": 5,
+    "exhaustive_k_max": 5,
+    "features_count": 5,
+    "raw_intercept": 50122.19298986525,
+    "raw_coefficients": {
+      "R&D Spend": 0.806023,
+      "Administration": -0.027004,
+      "Marketing Spend": 0.02698,
+      "State_Florida": 198.788793,
+      "State_New York": -41.887019
+    },
+    "optimal_k_per_method": {
+      "Lasso L1": {
+        "k": 2,
+        "features": [
+          "R&D Spend",
+          "Marketing Spend"
+        ],
+        "rmse": 9122.838957250453,
+        "r2": 0.9600515859423863,
+        "adj_r2": 0.9440722203193408,
+        "mae": 7682.29059824574,
+        "mse": 83226190.63992652
+      },
+      "Forward SFS": {
+        "k": 2,
+        "features": [
+          "R&D Spend",
+          "Marketing Spend"
+        ],
+        "rmse": 9122.838957250453,
+        "r2": 0.9600515859423863,
+        "adj_r2": 0.9440722203193408,
+        "mae": 7682.29059824574,
+        "mse": 83226190.63992652
+      },
+      "RFE": {
+        "k": 3,
+        "features": [
+          "R&D Spend",
+          "Marketing Spend",
+          "Administration"
+        ],
+        "rmse": 8857.981965168696,
+        "r2": 0.9623375030822944,
+        "adj_r2": 0.9340906303940152,
+        "mae": 7718.238644336355,
+        "mse": 78463844.49525388
+      },
+      "ElasticNet": {
+        "k": 2,
+        "features": [
+          "R&D Spend",
+          "Marketing Spend"
+        ],
+        "rmse": 9122.838957250453,
+        "r2": 0.9600515859423863,
+        "adj_r2": 0.9440722203193408,
+        "mae": 7682.29059824574,
+        "mse": 83226190.63992652
+      },
+      "Exhaustive Search": {
+        "k": 2,
+        "features": [
+          "R&D Spend",
+          "Marketing Spend"
+        ],
+        "rmse": 9122.838957250453,
+        "r2": 0.9600515859423863,
+        "adj_r2": 0.9440722203193408,
+        "mae": 7682.29059824574,
+        "mse": 83226190.63992652
+      }
+    },
+    "best_overall": {
+      "method": "RFE",
+      "k": 3,
+      "features": [
+        "R&D Spend",
+        "Marketing Spend",
+        "Administration"
+      ],
+      "holdout_metrics": {
+        "R2": 0.900065308303732,
+        "Adj_R2": 0.850097962455598,
+        "RMSE": 8995.905803361416,
+        "MAE": 6979.152252370402,
+        "MSE": 80926321.22295162
+      }
+    },
+    "baseline_metrics": {
+      "R2": 0.9539482451474512,
+      "Adj_R2": 0.8388188580160794,
+      "RMSE": 9794.974940129718,
+      "MAE": 7946.608531351294,
+      "MSE": 95941534.07776918
+    },
+    "comparison_table": [
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 5,
+        "Selected Features": "R&D Spend, Marketing Spend, State_Florida, Administration, State_New York",
+        "MAE": 7946.608531349021,
+        "MSE": 95941534.07779862,
+        "RMSE": 9794.974940131222,
+        "R-squared": 0.9539482451474371,
+        "Adjusted R-squared": 0.8388188580160301
+      },
+      {
+        "Method": "Exhaustive Search",
+        "Number of Features": 5,
+        "Selected Features": "R&D Spend, Administration, Marketing Spend, State_Florida, State_New York",
+        "MAE": 7946.608531351294,
+        "MSE": 95941534.07776918,
+        "RMSE": 9794.974940129718,
+        "R-squared": 0.9539482451474512,
+        "Adjusted R-squared": 0.8388188580160794
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 5,
+        "Selected Features": "R&D Spend, Marketing Spend, Administration, State_Florida, State_New York",
+        "MAE": 7946.608531351285,
+        "MSE": 95941534.07776916,
+        "RMSE": 9794.974940129718,
+        "R-squared": 0.9539482451474512,
+        "Adjusted R-squared": 0.8388188580160794
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 5,
+        "Selected Features": "R&D Spend, Marketing Spend, State_Florida, State_New York, Administration",
+        "MAE": 7946.608531350567,
+        "MSE": 95941534.07773799,
+        "RMSE": 9794.974940128126,
+        "R-squared": 0.9539482451474662,
+        "Adjusted R-squared": 0.8388188580161318
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 5,
+        "Selected Features": "R&D Spend, Marketing Spend, State_Florida, State_New York, Administration",
+        "MAE": 7946.608531350567,
+        "MSE": 95941534.07773799,
+        "RMSE": 9794.974940128126,
+        "R-squared": 0.9539482451474662,
+        "Adjusted R-squared": 0.8388188580161318
+      },
+      {
+        "Method": "Baseline (All 5 Features)",
+        "Number of Features": 5,
+        "Selected Features": "All 5 features included",
+        "MAE": 7946.608531351294,
+        "MSE": 95941534.07776918,
+        "RMSE": 9794.974940129718,
+        "R-squared": 0.9539482451474512,
+        "Adjusted R-squared": 0.8388188580160794
+      }
+    ],
+    "fs_curves": [
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 1,
+        "Selected Features": "R&D Spend",
+        "MAE": 7571.448400651774,
+        "MSE": 86385652.7935786,
+        "RMSE": 9294.388242029629,
+        "R-squared": 0.958535050085789,
+        "Adjusted R-squared": 0.9516242251000872
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 2,
+        "Selected Features": "R&D Spend, Marketing Spend",
+        "MAE": 7682.29059824574,
+        "MSE": 83226190.63992652,
+        "RMSE": 9122.838957250453,
+        "R-squared": 0.9600515859423863,
+        "Adjusted R-squared": 0.9440722203193408
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 3,
+        "Selected Features": "R&D Spend, Marketing Spend, State_Florida",
+        "MAE": 7845.278503187755,
+        "MSE": 95778435.69436762,
+        "RMSE": 9786.645783636373,
+        "R-squared": 0.9540265320629301,
+        "Adjusted R-squared": 0.9195464311101277
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 4,
+        "Selected Features": "R&D Spend, Marketing Spend, State_Florida, State_New York",
+        "MAE": 7808.270225240788,
+        "MSE": 107540067.23451549,
+        "RMSE": 10370.152710279415,
+        "R-squared": 0.9483809711746307,
+        "Adjusted R-squared": 0.8795555994074716
+      },
+      {
+        "Method": "Lasso L1",
+        "Number of Features": 5,
+        "Selected Features": "R&D Spend, Marketing Spend, State_Florida, State_New York, Administration",
+        "MAE": 7946.608531350567,
+        "MSE": 95941534.07773799,
+        "RMSE": 9794.974940128126,
+        "R-squared": 0.9539482451474662,
+        "Adjusted R-squared": 0.8388188580161318
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 1,
+        "Selected Features": "R&D Spend",
+        "MAE": 7571.448400651774,
+        "MSE": 86385652.7935786,
+        "RMSE": 9294.388242029629,
+        "R-squared": 0.958535050085789,
+        "Adjusted R-squared": 0.9516242251000872
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 2,
+        "Selected Features": "R&D Spend, Marketing Spend",
+        "MAE": 7682.29059824574,
+        "MSE": 83226190.63992652,
+        "RMSE": 9122.838957250453,
+        "R-squared": 0.9600515859423863,
+        "Adjusted R-squared": 0.9440722203193408
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 3,
+        "Selected Features": "R&D Spend, Marketing Spend, State_Florida",
+        "MAE": 7845.278503187755,
+        "MSE": 95778435.69436762,
+        "RMSE": 9786.645783636373,
+        "R-squared": 0.9540265320629301,
+        "Adjusted R-squared": 0.9195464311101277
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 4,
+        "Selected Features": "R&D Spend, Marketing Spend, State_Florida, Administration",
+        "MAE": 7874.874408309103,
+        "MSE": 88992556.14656153,
+        "RMSE": 9433.586600363698,
+        "R-squared": 0.9572837414081672,
+        "Adjusted R-squared": 0.9003287299523901
+      },
+      {
+        "Method": "Forward SFS",
+        "Number of Features": 5,
+        "Selected Features": "R&D Spend, Marketing Spend, State_Florida, Administration, State_New York",
+        "MAE": 7946.608531349021,
+        "MSE": 95941534.07779862,
+        "RMSE": 9794.974940131222,
+        "R-squared": 0.9539482451474371,
+        "Adjusted R-squared": 0.8388188580160301
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 1,
+        "Selected Features": "R&D Spend",
+        "MAE": 7571.448400651774,
+        "MSE": 86385652.7935786,
+        "RMSE": 9294.388242029629,
+        "R-squared": 0.958535050085789,
+        "Adjusted R-squared": 0.9516242251000872
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 2,
+        "Selected Features": "R&D Spend, Marketing Spend",
+        "MAE": 7682.29059824574,
+        "MSE": 83226190.63992652,
+        "RMSE": 9122.838957250453,
+        "R-squared": 0.9600515859423863,
+        "Adjusted R-squared": 0.9440722203193408
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 3,
+        "Selected Features": "R&D Spend, Marketing Spend, Administration",
+        "MAE": 7718.238644336355,
+        "MSE": 78463844.49525388,
+        "RMSE": 8857.981965168696,
+        "R-squared": 0.9623375030822944,
+        "Adjusted R-squared": 0.9340906303940152
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 4,
+        "Selected Features": "R&D Spend, Marketing Spend, Administration, State_Florida",
+        "MAE": 7874.874408307377,
+        "MSE": 88992556.14657748,
+        "RMSE": 9433.586600364544,
+        "R-squared": 0.9572837414081595,
+        "Adjusted R-squared": 0.9003287299523722
+      },
+      {
+        "Method": "RFE",
+        "Number of Features": 5,
+        "Selected Features": "R&D Spend, Marketing Spend, Administration, State_Florida, State_New York",
+        "MAE": 7946.608531351285,
+        "MSE": 95941534.07776916,
+        "RMSE": 9794.974940129718,
+        "R-squared": 0.9539482451474512,
+        "Adjusted R-squared": 0.8388188580160794
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 1,
+        "Selected Features": "R&D Spend",
+        "MAE": 7571.448400651774,
+        "MSE": 86385652.7935786,
+        "RMSE": 9294.388242029629,
+        "R-squared": 0.958535050085789,
+        "Adjusted R-squared": 0.9516242251000872
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 2,
+        "Selected Features": "R&D Spend, Marketing Spend",
+        "MAE": 7682.29059824574,
+        "MSE": 83226190.63992652,
+        "RMSE": 9122.838957250453,
+        "R-squared": 0.9600515859423863,
+        "Adjusted R-squared": 0.9440722203193408
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 3,
+        "Selected Features": "R&D Spend, Marketing Spend, State_Florida",
+        "MAE": 7845.278503187755,
+        "MSE": 95778435.69436762,
+        "RMSE": 9786.645783636373,
+        "R-squared": 0.9540265320629301,
+        "Adjusted R-squared": 0.9195464311101277
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 4,
+        "Selected Features": "R&D Spend, Marketing Spend, State_Florida, State_New York",
+        "MAE": 7808.270225240788,
+        "MSE": 107540067.23451549,
+        "RMSE": 10370.152710279415,
+        "R-squared": 0.9483809711746307,
+        "Adjusted R-squared": 0.8795555994074716
+      },
+      {
+        "Method": "ElasticNet",
+        "Number of Features": 5,
+        "Selected Features": "R&D Spend, Marketing Spend, State_Florida, State_New York, Administration",
+        "MAE": 7946.608531350567,
+        "MSE": 95941534.07773799,
+        "RMSE": 9794.974940128126,
+        "R-squared": 0.9539482451474662,
+        "Adjusted R-squared": 0.8388188580161318
+      },
+      {
+        "Method": "Exhaustive Search",
+        "Number of Features": 1,
+        "Selected Features": "R&D Spend",
+        "MAE": 7571.448400651774,
+        "MSE": 86385652.7935786,
+        "RMSE": 9294.388242029629,
+        "R-squared": 0.958535050085789,
+        "Adjusted R-squared": 0.9516242251000872
+      },
+      {
+        "Method": "Exhaustive Search",
+        "Number of Features": 2,
+        "Selected Features": "R&D Spend, Marketing Spend",
+        "MAE": 7682.29059824574,
+        "MSE": 83226190.63992652,
+        "RMSE": 9122.838957250453,
+        "R-squared": 0.9600515859423863,
+        "Adjusted R-squared": 0.9440722203193408
+      },
+      {
+        "Method": "Exhaustive Search",
+        "Number of Features": 3,
+        "Selected Features": "R&D Spend, Marketing Spend, State_Florida",
+        "MAE": 7845.278503187755,
+        "MSE": 95778435.69436762,
+        "RMSE": 9786.645783636373,
+        "R-squared": 0.9540265320629301,
+        "Adjusted R-squared": 0.9195464311101277
+      },
+      {
+        "Method": "Exhaustive Search",
+        "Number of Features": 4,
+        "Selected Features": "R&D Spend, Administration, Marketing Spend, State_Florida",
+        "MAE": 7874.874408307365,
+        "MSE": 88992556.14657733,
+        "RMSE": 9433.586600364537,
+        "R-squared": 0.9572837414081596,
+        "Adjusted R-squared": 0.9003287299523725
+      },
+      {
+        "Method": "Exhaustive Search",
+        "Number of Features": 5,
+        "Selected Features": "R&D Spend, Administration, Marketing Spend, State_Florida, State_New York",
+        "MAE": 7946.608531351294,
+        "MSE": 95941534.07776918,
+        "RMSE": 9794.974940129718,
+        "R-squared": 0.9539482451474512,
+        "Adjusted R-squared": 0.8388188580160794
+      }
+    ],
+    "rankings": [
+      {
+        "Rank": 1,
+        "Lasso_L1": "R&D Spend",
+        "Forward_SFS": "R&D Spend",
+        "RFE": "R&D Spend",
+        "ElasticNet": "R&D Spend"
+      },
+      {
+        "Rank": 2,
+        "Lasso_L1": "Marketing Spend",
+        "Forward_SFS": "Marketing Spend",
+        "RFE": "Marketing Spend",
+        "ElasticNet": "Marketing Spend"
+      },
+      {
+        "Rank": 3,
+        "Lasso_L1": "State_Florida",
+        "Forward_SFS": "State_Florida",
+        "RFE": "Administration",
+        "ElasticNet": "State_Florida"
+      },
+      {
+        "Rank": 4,
+        "Lasso_L1": "State_New York",
+        "Forward_SFS": "Administration",
+        "RFE": "State_Florida",
+        "ElasticNet": "State_New York"
+      },
+      {
+        "Rank": 5,
+        "Lasso_L1": "Administration",
+        "Forward_SFS": "State_New York",
+        "RFE": "State_New York",
+        "ElasticNet": "Administration"
+      }
+    ],
+    "vif": [
+      {
+        "Feature": "Marketing Spend",
+        "VIF": 2.1528
+      },
+      {
+        "Feature": "R&D Spend",
+        "VIF": 2.0745
+      },
+      {
+        "Feature": "State_Florida",
+        "VIF": 1.3542
+      },
+      {
+        "Feature": "State_New York",
+        "VIF": 1.3088
+      },
+      {
+        "Feature": "Administration",
+        "VIF": 1.2032
+      }
+    ],
+    "encoding_info": {
+      "State": {
+        "categories": [
+          "California",
+          "Florida",
+          "New York"
+        ],
+        "reference_category": "California",
+        "encoded_columns": [
+          "State_Florida",
+          "State_New York"
+        ]
+      }
+    },
+    "gallery_base_path": "results/startup/"
+  }
+}

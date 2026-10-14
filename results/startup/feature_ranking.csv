@@ -1,0 +1,6 @@
+Rank,Lasso_L1,Forward_SFS,RFE,ElasticNet
+1,R&D Spend,R&D Spend,R&D Spend,R&D Spend
+2,Marketing Spend,Marketing Spend,Marketing Spend,Marketing Spend
+3,State_Florida,State_Florida,Administration,State_Florida
+4,State_New York,Administration,State_Florida,State_New York
+5,Administration,State_New York,State_New York,Administration

@@ -1,0 +1,2404 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiple Linear Regression Explorer | 雙專案多元線性迴歸與特徵選擇互動分析平台</title>
+  
+  <!-- Typography from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js for Dynamic Research Diagnostics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-light: #eff6ff;
+      --primary-border: #bfdbfe;
+      --accent: #4f46e5;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --success-border: #a7f3d0;
+      --warning: #f59e0b;
+      --warning-light: #fffbeb;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --card-bg: #ffffff;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--slate-50);
+      color: var(--slate-800);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==========================================================================
+       HEADER & NAVIGATION
+       ========================================================================== */
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--slate-200);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-top {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .brand-icon {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .brand-title h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--slate-900);
+      letter-spacing: -0.02em;
+    }
+
+    .brand-title p {
+      font-size: 0.8rem;
+      color: var(--slate-500);
+      font-weight: 500;
+    }
+
+    /* Project Dropdown Selector in Header */
+    .project-selector-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: var(--slate-100);
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--slate-300);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s;
+    }
+    .project-selector-wrapper:hover {
+      border-color: var(--primary);
+      background: #ffffff;
+    }
+    .project-select-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--slate-700);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .project-dropdown {
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: #ffffff;
+      border: 1.5px solid var(--primary-border);
+      border-radius: var(--radius-sm);
+      padding: 0.4rem 1.75rem 0.4rem 0.75rem;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 0.5rem center;
+      background-size: 1rem;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s;
+    }
+    .project-dropdown:hover, .project-dropdown:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .statsunlock-ref-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--slate-100);
+      border: 1px solid var(--slate-300);
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--slate-700);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .statsunlock-ref-badge:hover {
+      background: var(--primary-light);
+      border-color: var(--primary-border);
+      color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    /* Tabs Bar */
+    .nav-tabs-wrapper {
+      background: #ffffff;
+      border-top: 1px solid var(--slate-100);
+    }
+    .nav-tabs {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .tab-btn {
+      padding: 0.75rem 1.15rem;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--slate-600);
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      color: var(--primary);
+      background: var(--slate-50);
+    }
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    /* ==========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================== */
+    main {
+      max-width: 1440px;
+      margin: 1.5rem auto 3rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card Component */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--slate-200);
+    }
+    .card-header h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--slate-900);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .card-header p {
+      font-size: 0.85rem;
+      color: var(--slate-500);
+      margin-top: 0.2rem;
+    }
+
+    /* Project Banner Badge */
+    .project-indicator-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: #ffffff;
+      padding: 1rem 1.5rem;
+      border-radius: var(--radius-lg);
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-md);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .p-ind-left {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .p-ind-badge {
+      background: rgba(37, 99, 235, 0.35);
+      border: 1px solid rgba(147, 197, 253, 0.4);
+      color: #93c5fd;
+      padding: 0.3rem 0.7rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .p-ind-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+    }
+    .p-ind-sub {
+      font-size: 0.82rem;
+      color: var(--slate-400);
+    }
+    .p-ind-stats {
+      display: flex;
+      gap: 1.25rem;
+    }
+    .stat-pill {
+      text-align: right;
+    }
+    .stat-pill .lbl {
+      font-size: 0.72rem;
+      color: var(--slate-400);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .stat-pill .num {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ==========================================================================
+       TAB 1: STATSUNLOCK TWO-COLUMN CALCULATOR
+       ========================================================================== */
+    .two-column-layout {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 1024px) {
+      .two-column-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Preset Buttons */
+    .preset-container {
+      background: var(--slate-50);
+      border: 1px dashed var(--slate-300);
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+    .preset-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--slate-600);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .preset-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .preset-pill {
+      background: #ffffff;
+      border: 1px solid var(--slate-300);
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--slate-700);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .preset-pill:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    /* Input Groups */
+    .input-section-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--slate-700);
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid var(--slate-100);
+      margin: 1.25rem 0 0.85rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .variable-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+    @media (min-width: 640px) {
+      .variable-grid.cols-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .variable-row {
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 0.65rem 0.85rem;
+      transition: all 0.2s;
+    }
+    .variable-row:hover {
+      border-color: var(--primary-border);
+      background: #ffffff;
+      box-shadow: var(--shadow-sm);
+    }
+    .var-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.4rem;
+    }
+    .var-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--slate-800);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .var-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--slate-400);
+    }
+    .var-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .var-slider {
+      flex: 1;
+      height: 5px;
+      border-radius: 9999px;
+      background: var(--slate-200);
+      outline: none;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+    .var-input {
+      width: 78px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.3rem 0.45rem;
+      text-align: right;
+      border: 1px solid var(--slate-300);
+      border-radius: var(--radius-sm);
+      color: var(--slate-900);
+      background: #ffffff;
+      outline: none;
+    }
+    .var-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+    }
+    .var-select {
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.45rem 0.75rem;
+      border: 1px solid var(--slate-300);
+      border-radius: var(--radius-sm);
+      background: #ffffff;
+      color: var(--slate-900);
+      outline: none;
+    }
+    .var-select:focus {
+      border-color: var(--primary);
+    }
+
+    /* Output Column Cards */
+    .hero-output-card {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-output-card::after {
+      content: "";
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.3) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-label {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--slate-400);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .status-badge {
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    .hero-value-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 0.65rem;
+      margin-bottom: 1rem;
+    }
+    .hero-value {
+      font-size: 3.2rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: #ffffff;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .hero-subvalue {
+      font-size: 1.1rem;
+      color: var(--slate-400);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .risk-meter-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+    }
+    .risk-meter-fill {
+      height: 100%;
+      border-radius: 9999px;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s;
+    }
+    .hero-disclaimer {
+      font-size: 0.75rem;
+      color: var(--slate-400);
+      line-height: 1.45;
+      padding-top: 0.65rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Equation Box */
+    .equation-box {
+      background: var(--slate-900);
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      border: 1px solid var(--slate-700);
+      margin-bottom: 1.25rem;
+    }
+
+    /* Metric Badges Grid */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .metric-card {
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 0.5rem;
+      text-align: center;
+    }
+    .metric-card .title {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--slate-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.2rem;
+    }
+    .metric-card .val {
+      font-size: 1.25rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--slate-900);
+    }
+
+    /* Contribution Breakdown Table */
+    .table-container {
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+    th {
+      background: var(--slate-100);
+      color: var(--slate-700);
+      font-weight: 700;
+      padding: 0.75rem 1rem;
+      border-bottom: 2px solid var(--slate-200);
+      white-space: nowrap;
+    }
+    td {
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid var(--slate-200);
+      color: var(--slate-800);
+    }
+    tr:hover {
+      background-color: var(--slate-50);
+    }
+    .best-row {
+      background-color: #f0fdf4 !important;
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       PART 5: INTERACTIVE FEATURE COUNT CONTROLLER (k)
+       ========================================================================== */
+    .k-controller-card {
+      background: #ffffff;
+      border: 2px solid var(--primary-border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .k-ctrl-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .k-ctrl-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--slate-900);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .optimal-k-pill {
+      background: var(--success-light);
+      border: 1px solid var(--success-border);
+      color: #047857;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .k-ctrl-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    @media (max-width: 860px) {
+      .k-ctrl-body {
+        grid-template-columns: 1fr;
+      }
+    }
+    .k-slider-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .k-slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--slate-500);
+      font-weight: 600;
+    }
+    .k-slider-control {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .k-slider-control input[type="range"] {
+      flex: 1;
+      height: 8px;
+      border-radius: 9999px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    .k-number-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--primary);
+      background: var(--primary-light);
+      border: 1px solid var(--primary-border);
+      padding: 0.2rem 0.75rem;
+      border-radius: var(--radius-sm);
+      min-width: 54px;
+      text-align: center;
+    }
+
+    .k-status-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.65rem;
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
+    }
+    .k-status-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .k-status-item .label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--slate-500);
+    }
+    .k-status-item .val {
+      font-size: 1rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--slate-800);
+    }
+    .k-status-item .val.highlight {
+      color: #047857;
+    }
+    .k-selected-features-line {
+      margin-top: 0.85rem;
+      font-size: 0.82rem;
+      color: var(--slate-600);
+      background: var(--slate-50);
+      padding: 0.5rem 0.85rem;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--primary);
+    }
+
+    /* Algorithm Picker Tabs */
+    .algo-picker-group {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+    .algo-pill {
+      background: var(--slate-100);
+      border: 1px solid var(--slate-300);
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--slate-700);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .algo-pill:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .algo-pill.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    /* Side-by-side Curves Grid */
+    .curves-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 960px) {
+      .curves-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Gallery Grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 1.5rem;
+    }
+    .gallery-item {
+      background: #ffffff;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .gallery-item:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .gallery-item img {
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--slate-200);
+      display: block;
+      margin-bottom: 0.85rem;
+    }
+    .gallery-item h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--slate-900);
+      margin-bottom: 0.35rem;
+    }
+    .gallery-item p {
+      font-size: 0.82rem;
+      color: var(--slate-600);
+      line-height: 1.5;
+    }
+
+    /* APA Report Box */
+    .apa-box {
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      font-family: 'Inter', serif;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--slate-800);
+      position: relative;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: #ffffff;
+      border: 1px solid var(--slate-300);
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--slate-700);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Footer */
+    footer {
+      background: #ffffff;
+      border-top: 1px solid var(--slate-200);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      color: var(--slate-500);
+      font-size: 0.85rem;
+    }
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======================================================================== -->
+  <!-- TOP HEADER & DROPDOWN SELECTION MENU                                     -->
+  <!-- ======================================================================== -->
+  <header>
+    <div class="header-top">
+      <div class="brand-group">
+        <div class="brand-icon" id="brand-icon">🌊</div>
+        <div class="brand-title">
+          <h1>Multiple Linear Regression Explorer</h1>
+          <p id="header-subtitle">CRISP-DM · Feature Selection · Interactive Regression Analysis</p>
+        </div>
+      </div>
+
+      <!-- Project Dropdown Selection (PART 2) -->
+      <div class="project-selector-wrapper">
+        <label for="project-select" class="project-select-label">切換分析專案 Project:</label>
+        <select id="project-select" class="project-dropdown" onchange="onProjectChange(this.value)">
+          <option value="flood" selected>🌊 Flood Probability Prediction</option>
+          <option value="startup">🚀 50 Startups Profit Prediction</option>
+        </select>
+      </div>
+
+      <!-- StatsUnlock Reference Badge -->
+      <a href="https://statsunlock.com/multiple-linear-regression-calculator/" target="_blank" class="statsunlock-ref-badge" title="點擊檢視版面參考原型">
+        <span>📐</span> 版面風格參考 StatsUnlock Multiple Linear Regression Calculator
+      </a>
+    </div>
+
+    <!-- Navigation Tabs Bar -->
+    <div class="nav-tabs-wrapper">
+      <nav class="nav-tabs" role="tablist">
+        <button class="tab-btn active" id="tab-btn-calculator" onclick="switchTab('calculator', this)">🧮 互動迴歸計算機</button>
+        <button class="tab-btn" id="tab-btn-benchmark" onclick="switchTab('benchmark', this)">📊 五大演算法對比</button>
+        <button class="tab-btn" id="tab-btn-curves" onclick="switchTab('curves', this)">📈 特徵遞增曲線 (<span id="tab-curves-k-label">1-20</span>)</button>
+        <button class="tab-btn" id="tab-btn-gallery" onclick="switchTab('gallery', this)">🖼️ 研究級圖表展示館</button>
+        <button class="tab-btn" id="tab-btn-apa" onclick="switchTab('apa', this)">📑 學術統計分析報告</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ======================================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                                   -->
+  <!-- ======================================================================== -->
+  <main>
+
+    <!-- Top Project Indicator Bar -->
+    <div class="project-indicator-bar" id="project-indicator-bar">
+      <div class="p-ind-left">
+        <span class="p-ind-badge" id="p-ind-badge">Project A</span>
+        <div>
+          <div class="p-ind-title" id="p-ind-title">Flood Probability Prediction</div>
+          <div class="p-ind-sub" id="p-ind-sub">Kaggle Playground Series S4E5 · 20 Input Features · N = 1,117,957</div>
+        </div>
+      </div>
+      <div class="p-ind-stats">
+        <div class="stat-pill">
+          <div class="lbl">Train 樣本數</div>
+          <div class="num" id="stat-train-num">715,492</div>
+        </div>
+        <div class="stat-pill">
+          <div class="lbl">Holdout Test 樣本數</div>
+          <div class="num" id="stat-test-num">223,592</div>
+        </div>
+        <div class="stat-pill">
+          <div class="lbl">全模型 R²</div>
+          <div class="num" id="stat-r2-num">0.8456</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- TAB 1: 互動預測計算機 (STATSUNLOCK STYLE CALCULATOR)                     -->
+    <!-- ======================================================================= -->
+    <div id="calculator-tab" class="tab-pane active">
+      <div class="two-column-layout">
+        
+        <!-- LEFT COLUMN: CONTROLS & VARIABLE SLIDERS -->
+        <div class="left-controls">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h2 id="calc-panel-title">🎛️ 模型因子輸入控制面板</h2>
+                <p id="calc-panel-desc">調整各項特徵數值以觀察多元線性迴歸之實時推論結果</p>
+              </div>
+              <button class="preset-pill" onclick="resetCalculatorDefaults()">重設預設值</button>
+            </div>
+
+            <!-- Scenario Presets -->
+            <div class="preset-container">
+              <span class="preset-label" id="preset-title-label">快速載入真實環境情境 Presets:</span>
+              <div class="preset-pills" id="preset-pills-container">
+                <!-- Dynamically rendered via JS -->
+              </div>
+            </div>
+
+            <!-- Dynamic Input Fields Container -->
+            <div id="dynamic-inputs-container">
+              <!-- Dynamically populated via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: STATSUNLOCK REAL-TIME METRICS & GAUGE -->
+        <div class="right-metrics">
+          
+          <!-- Hero Output Card -->
+          <div class="hero-output-card">
+            <div class="hero-label">
+              <span id="hero-target-label">即時預測連續目標值</span>
+              <span class="status-badge" id="hero-status-badge">計算中...</span>
+            </div>
+            
+            <div class="hero-value-wrap">
+              <div class="hero-value" id="hero-main-value">0.0000</div>
+              <div class="hero-subvalue" id="hero-sub-value"></div>
+            </div>
+
+            <div class="risk-meter-bar">
+              <div class="risk-meter-fill" id="risk-meter-fill" style="width: 50%; background-color: var(--primary);"></div>
+            </div>
+
+            <div class="hero-disclaimer" id="hero-disclaimer-text">
+              ⚠️ 本預測數值為基於資料集之多元線性迴歸模型推估值，僅供學術作業與資料科學研究演示。
+            </div>
+          </div>
+
+          <!-- Academic OLS Equation Card -->
+          <div class="card">
+            <div class="card-header" style="margin-bottom: 0.75rem; padding-bottom: 0.5rem;">
+              <h2>📐 未標準化真實 OLS 迴歸方程式</h2>
+            </div>
+            <div class="equation-box" id="equation-display-box">
+              <!-- Dynamically rendered via JS -->
+            </div>
+            <p style="font-size: 0.78rem; color: var(--slate-500);">
+              * 截距項與迴歸係數由完整訓練數據擬合產出，各變數係數代表該特徵每增加 1 單位時目標變數之邊際平均變動量。
+            </p>
+          </div>
+
+          <!-- Performance Metrics Grid -->
+          <div class="card">
+            <div class="card-header" style="margin-bottom: 0.75rem; padding-bottom: 0.5rem;">
+              <h2>📊 最佳部署模型評估指標 (Validation & Test)</h2>
+            </div>
+            <div class="metric-grid" id="metric-grid-container">
+              <!-- Dynamically rendered via JS -->
+            </div>
+
+            <h3 style="font-size: 0.92rem; font-weight: 700; color: var(--slate-800); margin: 1rem 0 0.5rem 0;">
+              🔍 當前變數對目標值之邊際貢獻分解
+            </h3>
+            <div class="table-container" style="max-height: 240px; overflow-y: auto;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>因子名稱 (Feature)</th>
+                    <th>輸入數值</th>
+                    <th>迴歸係數 (β)</th>
+                    <th>數值貢獻 (β × X)</th>
+                  </tr>
+                </thead>
+                <tbody id="contribution-table-body">
+                  <!-- Dynamically rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- TAB 2: 五大特徵選擇演算法對比 (BENCHMARK & INTERACTIVE K)                -->
+    <!-- ======================================================================= -->
+    <div id="benchmark-tab" class="tab-pane">
+      
+      <!-- Interactive Feature Count Selector Card (PART 5) -->
+      <div class="k-controller-card">
+        <div class="k-ctrl-header">
+          <div class="k-ctrl-title">
+            <span>🎯 互動式特徵數量 (k) 選擇器與最佳甜點分析</span>
+          </div>
+          <div class="optimal-k-pill" id="optimal-k-badge">
+            ★ 最佳甜點 (Optimal Sweet Spot): k = 2
+          </div>
+        </div>
+
+        <div style="margin-bottom: 0.85rem;">
+          <span style="font-size: 0.78rem; font-weight: 700; color: var(--slate-600); margin-bottom: 0.35rem; display: block;">
+            切換當前觀察演算法 (Select Algorithm):
+          </span>
+          <div class="algo-picker-group" id="algo-picker-group">
+            <button class="algo-pill active" onclick="setSelectAlgorithm('Lasso L1')">🔴 Lasso L1</button>
+            <button class="algo-pill" onclick="setSelectAlgorithm('Forward SFS')">🔵 Forward SFS</button>
+            <button class="algo-pill" onclick="setSelectAlgorithm('RFE')">🟢 RFE</button>
+            <button class="algo-pill" onclick="setSelectAlgorithm('ElasticNet')">🟡 ElasticNet</button>
+            <button class="algo-pill" onclick="setSelectAlgorithm('Exhaustive Search')">🟣 Exhaustive Search</button>
+          </div>
+        </div>
+
+        <div class="k-ctrl-body">
+          <div class="k-slider-box">
+            <div class="k-slider-labels">
+              <span>最小特徵數 (k = 1)</span>
+              <span id="k-slider-max-label">最大特徵數 (k = 20)</span>
+            </div>
+            <div class="k-slider-control">
+              <input type="range" id="k-interactive-slider" min="1" max="20" value="5" oninput="onKChange(parseInt(this.value))">
+              <div class="k-number-display" id="k-number-display">5</div>
+            </div>
+          </div>
+
+          <div class="k-status-box" id="k-status-box">
+            <div class="k-status-item">
+              <span class="label">當前選取 (Selected):</span>
+              <span class="val">k = <strong id="k-curr-val">5</strong></span>
+            </div>
+            <div class="k-status-item">
+              <span class="label">演算法最佳甜點:</span>
+              <span class="val highlight">k = <strong id="k-opt-val">2 ★</strong></span>
+            </div>
+            <div class="k-status-item">
+              <span class="label">選取 k 驗證 RMSE:</span>
+              <span class="val" id="k-curr-rmse">--</span>
+            </div>
+            <div class="k-status-item">
+              <span class="label">最佳 k 驗證 RMSE:</span>
+              <span class="val highlight" id="k-opt-rmse">--</span>
+            </div>
+            <div class="k-status-item">
+              <span class="label">選取 k 驗證 R²:</span>
+              <span class="val" id="k-curr-r2">--</span>
+            </div>
+            <div class="k-status-item">
+              <span class="label">最佳 k 驗證 R²:</span>
+              <span class="val highlight" id="k-opt-r2">--</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="k-selected-features-line" id="k-selected-features-line">
+          <strong>選中特徵組合 (Selected Features):</strong> <span id="k-features-text">載入中...</span>
+        </div>
+      </div>
+
+      <!-- Benchmark Comparison Table Card -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 id="benchmark-table-title">📊 五大特徵選擇演算法與 Baseline 對比表</h2>
+            <p id="benchmark-table-desc">所有演算法統一以多元線性迴歸 (LinearRegression) 作為評估模型</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="preset-pill" onclick="switchBenchmarkMetric('RMSE')">切換顯示 RMSE</button>
+            <button class="preset-pill" onclick="switchBenchmarkMetric('R2')">切換顯示 R²</button>
+          </div>
+        </div>
+
+        <!-- Chart.js Benchmark Bar Chart -->
+        <div style="height: 320px; margin-bottom: 1.5rem;">
+          <canvas id="benchmarkBarChart"></canvas>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>演算法名稱 (Algorithm)</th>
+                <th>特徵數 (k)</th>
+                <th>挑選核心特徵子集 (Selected Features)</th>
+                <th>MAE</th>
+                <th>MSE</th>
+                <th>RMSE (驗證集)</th>
+                <th>R² 決定係數</th>
+                <th>Adjusted R²</th>
+              </tr>
+            </thead>
+            <tbody id="benchmark-table-body">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- TAB 3: 特徵數量漸進曲線 (INTERACTIVE CURVES 1-k_max)                     -->
+    <!-- ======================================================================= -->
+    <div id="curves-tab" class="tab-pane">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2>📈 特徵數量 (k) vs 評估指標漸進動態曲線</h2>
+            <p>點擊折線圖上的任意數據點，可直接選取對應的特徵數量 (k)</p>
+          </div>
+        </div>
+
+        <!-- Side-by-side Dual Curves Grid -->
+        <div class="curves-grid">
+          <div class="card" style="margin-bottom: 0; padding: 1rem;">
+            <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--slate-800);">
+              Graph A: 驗證集 RMSE 隨特徵數量變化曲線 (越低越好)
+            </h4>
+            <div style="height: 380px;">
+              <canvas id="rmseCurveChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom: 0; padding: 1rem;">
+            <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--slate-800);">
+              Graph B: 驗證集 R² 隨特徵數量變化曲線 (越高越好)
+            </h4>
+            <div style="height: 380px;">
+              <canvas id="r2CurveChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature Rankings Table -->
+        <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem;">📋 四大排序演算法特徵重要性排名對照表</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>重要性名次 (Rank)</th>
+                <th>Lasso (L1) 排序</th>
+                <th>Forward SFS 順序</th>
+                <th>RFE 遞迴淘汰順序</th>
+                <th>ElasticNet 排序</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-table-body">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- TAB 4: 研究級圖表展示館 (300 DPI GALLERY)                                -->
+    <!-- ======================================================================= -->
+    <div id="gallery-tab" class="tab-pane">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 id="gallery-title">🖼️ 研究級高解析度圖表展示館 (Publication-Quality Gallery)</h2>
+            <p>所有圖表均基於真實數據與標準隨機種子 (random_state=42) 產出，保證 100% 數值真實性</p>
+          </div>
+          <span style="font-size: 0.8rem; color: var(--slate-500);">300 DPI 實驗成果</span>
+        </div>
+
+        <div class="gallery-grid" id="gallery-grid-container">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- TAB 5: 學術統計分析報告 (CRISP-DM & APA 7TH REPORT)                      -->
+    <!-- ======================================================================= -->
+    <div id="apa-tab" class="tab-pane">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 id="apa-report-header">📑 學術統計分析報告與 CRISP-DM 總結 (APA 7th Format)</h2>
+            <p>依據 APA 第七版規範自動生成之多元線性迴歸統計陳述，支援一鍵複製</p>
+          </div>
+          <button class="copy-btn" onclick="copyApaReport()">📋 複製 APA 統計報告</button>
+        </div>
+
+        <div class="apa-box" id="apa-report-text">
+          <!-- Dynamically populated via JS -->
+        </div>
+
+        <div style="margin-top: 1.75rem;" id="apa-extra-details">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>
+      © 2026 Multiple Linear Regression Explorer · Two-Project Interactive Machine Learning Platform
+    </p>
+    <p style="margin-top: 0.35rem;">
+      版面結構與 OLS 計算機設計參考自：<a href="https://statsunlock.com/multiple-linear-regression-calculator/" target="_blank">StatsUnlock Multiple Linear Regression Calculator</a>
+    </p>
+  </footer>
+
+  <!-- ======================================================================= -->
+  <!-- JAVASCRIPT: DUAL-PROJECT CONTROLLER & DATA EMBEDDING                     -->
+  <!-- ======================================================================= -->
+  <script>
+    // -------------------------------------------------------------------------
+    // 1. EMBEDDED CONSOLIDATED PROJECT DATA (FLOOD & 50 STARTUPS)
+    // -------------------------------------------------------------------------
+    const PROJECTS = {
+      flood: {
+        id: 'flood',
+        name: 'Flood Probability Prediction',
+        nameZh: '洪水機率預測',
+        badge: 'Project A (Kaggle S4E5)',
+        icon: '🌊',
+        subtitle: 'Kaggle Playground Series S4E5 · 20 Input Features · N = 1,117,957',
+        targetCol: 'FloodProbability',
+        targetNameZh: '洪水發生機率 (FloodProbability)',
+        unitSymbol: '',
+        unitPosition: 'suffix',
+        trainSamples: '715,492',
+        testSamples: '223,592',
+        totalSamples: '1,117,957',
+        r2Stat: '0.8456',
+        kMax: 20,
+        exhaustiveKMax: 5,
+        intercept: -0.05329908,
+        disclaimer: '⚠️ 本預測數值為基於 Kaggle 競賽合成資料集之多元線性迴歸模型推估值，僅供學術作業與資料科學研究演示，非中央氣象署或水利署官方防汛告警系統。',
+        galleryBase: 'results/',
+        
+        // 20 Variables definition
+        features: [
+          { id: 'MonsoonIntensity', name: '季風降雨強度', group: 'climate', coef: 0.005612, min: 0, max: 19, default: 5 },
+          { id: 'TopographyDrainage', name: '地形自然排水性', group: 'climate', coef: 0.005648, min: 0, max: 19, default: 5 },
+          { id: 'ClimateChange', name: '氣候變遷衝擊', group: 'climate', coef: 0.005663, min: 0, max: 19, default: 5 },
+          { id: 'Landslides', name: '山崩滑坡好發率', group: 'climate', coef: 0.005642, min: 0, max: 19, default: 5 },
+          { id: 'CoastalVulnerability', name: '沿海脆弱度', group: 'climate', coef: 0.005671, min: 0, max: 19, default: 5 },
+
+          { id: 'RiverManagement', name: '河流疏浚與治理', group: 'infra', coef: 0.005666, min: 0, max: 19, default: 5 },
+          { id: 'DamsQuality', name: '水壩蓄水維護品質', group: 'infra', coef: 0.005655, min: 0, max: 19, default: 5 },
+          { id: 'DrainageSystems', name: '人工排水管網效能', group: 'infra', coef: 0.005636, min: 0, max: 19, default: 5 },
+          { id: 'DeterioratingInfrastructure', name: '公共基礎設施老化', group: 'infra', coef: 0.005616, min: 0, max: 19, default: 5 },
+
+          { id: 'Deforestation', name: '森林砍伐破壞程度', group: 'land', coef: 0.005679, min: 0, max: 19, default: 5 },
+          { id: 'Urbanization', name: '都市化不透水率', group: 'land', coef: 0.005658, min: 0, max: 19, default: 5 },
+          { id: 'Siltation', name: '河床泥沙淤積度', group: 'land', coef: 0.005638, min: 0, max: 19, default: 5 },
+          { id: 'AgriculturalPractices', name: '水土保持不良耕作', group: 'land', coef: 0.005635, min: 0, max: 19, default: 5 },
+          { id: 'Encroachments', name: '違規侵占河道行水區', group: 'land', coef: 0.005650, min: 0, max: 19, default: 5 },
+          { id: 'WetlandLoss', name: '天然滯洪濕地流失率', group: 'land', coef: 0.005635, min: 0, max: 19, default: 5 },
+          { id: 'Watersheds', name: '集水區生態惡化指標', group: 'land', coef: 0.005647, min: 0, max: 19, default: 5 },
+
+          { id: 'IneffectiveDisasterPreparedness', name: '防災準備預警不力', group: 'governance', coef: 0.005640, min: 0, max: 19, default: 5 },
+          { id: 'PopulationScore', name: '人口暴露密度評分', group: 'governance', coef: 0.005678, min: 0, max: 19, default: 5 },
+          { id: 'InadequatePlanning', name: '都市防洪規劃不當', group: 'governance', coef: 0.005609, min: 0, max: 19, default: 5 },
+          { id: 'PoliticalFactors', name: '防災預算政策因子', group: 'governance', coef: 0.005649, min: 0, max: 19, default: 5 }
+        ],
+
+        groups: [
+          { key: 'climate', name: '🌧️ 氣候與水文因子 (5 項)' },
+          { key: 'infra', name: '🏗️ 水利與防洪工程 (4 項)' },
+          { key: 'land', name: '🌲 土地覆蓋與水土保持 (7 項)' },
+          { key: 'governance', name: '🏛️ 社會暴露與治理效能 (4 項)' }
+        ],
+
+        presets: [
+          { name: '🚨 極端暴雨與高風險', values: { MonsoonIntensity: 16, TopographyDrainage: 15, ClimateChange: 14, DeterioratingInfrastructure: 15, DamsQuality: 14, Urbanization: 15 } },
+          { name: '⚖️ 歷史平均基準狀況', values: {} },
+          { name: '🛡️ 高韌性生態防護城', values: { DamsQuality: 2, DrainageSystems: 2, RiverManagement: 2, Deforestation: 2, Siltation: 2, WetlandLoss: 2 } },
+          { name: '🌊 沿海風暴潮脆弱區', values: { CoastalVulnerability: 17, PopulationScore: 16, MonsoonIntensity: 14, InadequatePlanning: 15 } }
+        ],
+
+        optimalKPerMethod: {
+          'Lasso L1': { k: 20, rmse: 0.02007, r2: 0.84565 },
+          'Forward SFS': { k: 20, rmse: 0.02007, r2: 0.84565 },
+          'RFE': { k: 20, rmse: 0.02007, r2: 0.84565 },
+          'ElasticNet': { k: 20, rmse: 0.02007, r2: 0.84565 },
+          'Exhaustive Search': { k: 5, rmse: 0.04623, r2: 0.18133 }
+        },
+
+        benchmarkComparison: [
+          { model: 'Forward SFS', k: 5, features: 'TopographyDrainage, MonsoonIntensity, ClimateChange, Siltation, DamsQuality', mae: 0.03732, mse: 0.002137, rmse: 0.04623, r2: 0.18133, adj_r2: 0.18131 },
+          { model: 'Exhaustive Search', k: 5, features: 'MonsoonIntensity, TopographyDrainage, ClimateChange, DamsQuality, Siltation', mae: 0.03732, mse: 0.002137, rmse: 0.04623, r2: 0.18133, adj_r2: 0.18131 },
+          { model: 'RFE 遞迴淘汰', k: 5, features: 'RiverManagement, Siltation, TopographyDrainage, DamsQuality, Landslides', mae: 0.03734, mse: 0.002141, rmse: 0.04627, r2: 0.18012, adj_r2: 0.18010 },
+          { model: 'Lasso (L1)', k: 5, features: 'CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization', mae: 0.03743, mse: 0.002149, rmse: 0.04636, r2: 0.17687, adj_r2: 0.17685 },
+          { model: 'ElasticNet', k: 5, features: 'CoastalVulnerability, TopographyDrainage, PoliticalFactors, PopulationScore, Urbanization', mae: 0.03743, mse: 0.002149, rmse: 0.04636, r2: 0.17687, adj_r2: 0.17685 },
+          { model: 'Baseline (全 20 特徵)', k: 20, features: '全部 20 項環境工程與人為管理因子', mae: 0.01580, mse: 0.000403, rmse: 0.02007, r2: 0.84565, adj_r2: 0.84563 }
+        ],
+
+        // 1 to 20 curve data
+        curveK: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+        curves: {
+          'Lasso L1': {
+            rmse: [0.05031, 0.04936, 0.04841, 0.04737, 0.04636, 0.04523, 0.04415, 0.04298, 0.04170, 0.04043, 0.03901, 0.03756, 0.03601, 0.03431, 0.03249, 0.03047, 0.02831, 0.02586, 0.02314, 0.02007],
+            r2:   [0.03038, 0.06684, 0.10253, 0.14043, 0.17687, 0.21648, 0.25338, 0.29241, 0.33388, 0.37404, 0.41717, 0.45965, 0.50332, 0.54899, 0.59563, 0.64430, 0.69295, 0.74392, 0.79496, 0.84565],
+            features: [
+              "CoastalVulnerability", "TopographyDrainage", "PoliticalFactors", "PopulationScore", "Urbanization",
+              "DamsQuality", "Encroachments", "RiverManagement", "Watersheds", "IneffectiveDisasterPreparedness",
+              "Landslides", "InadequatePlanning", "DrainageSystems", "WetlandLoss", "Siltation",
+              "Deforestation", "AgriculturalPractices", "ClimateChange", "DeterioratingInfrastructure", "MonsoonIntensity"
+            ]
+          },
+          'Forward SFS': {
+            rmse: [0.05019, 0.04924, 0.04829, 0.04729, 0.04623, 0.04513, 0.04400, 0.04285, 0.04160, 0.04033, 0.03892, 0.03746, 0.03592, 0.03423, 0.03241, 0.03043, 0.02829, 0.02588, 0.02318, 0.02007],
+            r2:   [0.03529, 0.07124, 0.10676, 0.14325, 0.18133, 0.22002, 0.25841, 0.29671, 0.33703, 0.37710, 0.41975, 0.46271, 0.50579, 0.55132, 0.59765, 0.64539, 0.69345, 0.74345, 0.79422, 0.84565],
+            features: [
+              "TopographyDrainage", "MonsoonIntensity", "ClimateChange", "Siltation", "DamsQuality",
+              "PopulationScore", "DeterioratingInfrastructure", "CoastalVulnerability", "Watersheds", "Urbanization",
+              "PoliticalFactors", "DrainageSystems", "Encroachments", "RiverManagement", "InadequatePlanning",
+              "Deforestation", "IneffectiveDisasterPreparedness", "WetlandLoss", "AgriculturalPractices", "Landslides"
+            ]
+          },
+          'RFE': {
+            rmse: [0.05021, 0.04927, 0.04832, 0.04732, 0.04627, 0.04516, 0.04404, 0.04289, 0.04165, 0.04037, 0.03896, 0.03750, 0.03597, 0.03427, 0.03245, 0.03047, 0.02832, 0.02589, 0.02318, 0.02007],
+            r2:   [0.03432, 0.07011, 0.10542, 0.14210, 0.18012, 0.21890, 0.25712, 0.29541, 0.33543, 0.37580, 0.41850, 0.46150, 0.50440, 0.55020, 0.59660, 0.64440, 0.69280, 0.74320, 0.79420, 0.84565],
+            features: [
+              "RiverManagement", "Siltation", "TopographyDrainage", "DamsQuality", "Landslides",
+              "PopulationScore", "IneffectiveDisasterPreparedness", "PoliticalFactors", "ClimateChange", "Urbanization",
+              "WetlandLoss", "Watersheds", "InadequatePlanning", "CoastalVulnerability", "DrainageSystems",
+              "Encroachments", "Deforestation", "AgriculturalPractices", "DeterioratingInfrastructure", "MonsoonIntensity"
+            ]
+          },
+          'ElasticNet': {
+            rmse: [0.05031, 0.04936, 0.04841, 0.04737, 0.04636, 0.04523, 0.04415, 0.04298, 0.04170, 0.04043, 0.03901, 0.03756, 0.03601, 0.03431, 0.03249, 0.03047, 0.02831, 0.02586, 0.02314, 0.02007],
+            r2:   [0.03038, 0.06684, 0.10253, 0.14043, 0.17687, 0.21648, 0.25338, 0.29241, 0.33388, 0.37404, 0.41717, 0.45965, 0.50332, 0.54899, 0.59563, 0.64430, 0.69295, 0.74392, 0.79496, 0.84565],
+            features: [
+              "CoastalVulnerability", "TopographyDrainage", "PoliticalFactors", "PopulationScore", "Urbanization",
+              "DamsQuality", "Encroachments", "RiverManagement", "Watersheds", "IneffectiveDisasterPreparedness",
+              "Landslides", "InadequatePlanning", "DrainageSystems", "WetlandLoss", "Siltation",
+              "Deforestation", "AgriculturalPractices", "ClimateChange", "DeterioratingInfrastructure", "MonsoonIntensity"
+            ]
+          },
+          'Exhaustive Search': {
+            rmse: [0.05019, 0.04924, 0.04829, 0.04729, 0.04623],
+            r2:   [0.03529, 0.07124, 0.10676, 0.14325, 0.18133],
+            features: [
+              "TopographyDrainage", "MonsoonIntensity", "ClimateChange", "DamsQuality", "Siltation"
+            ]
+          }
+        },
+
+        rankings: [
+          { rank: 1, lasso: 'CoastalVulnerability', sfs: 'TopographyDrainage', rfe: 'RiverManagement', enet: 'CoastalVulnerability' },
+          { rank: 2, lasso: 'TopographyDrainage', sfs: 'MonsoonIntensity', rfe: 'Siltation', enet: 'TopographyDrainage' },
+          { rank: 3, lasso: 'PoliticalFactors', sfs: 'ClimateChange', rfe: 'TopographyDrainage', enet: 'PoliticalFactors' },
+          { rank: 4, lasso: 'PopulationScore', sfs: 'Siltation', rfe: 'DamsQuality', enet: 'PopulationScore' },
+          { rank: 5, lasso: 'Urbanization', sfs: 'DamsQuality', rfe: 'Landslides', enet: 'Urbanization' },
+          { rank: 6, lasso: 'DamsQuality', sfs: 'PopulationScore', rfe: 'PopulationScore', enet: 'DamsQuality' },
+          { rank: 7, lasso: 'Encroachments', sfs: 'DeterioratingInfrastructure', rfe: 'IneffectiveDisasterPreparedness', enet: 'Encroachments' },
+          { rank: 8, lasso: 'RiverManagement', sfs: 'CoastalVulnerability', rfe: 'PoliticalFactors', enet: 'RiverManagement' },
+          { rank: 9, lasso: 'Watersheds', sfs: 'Watersheds', rfe: 'ClimateChange', enet: 'Watersheds' },
+          { rank: 10, lasso: 'IneffectiveDisasterPreparedness', sfs: 'Urbanization', rfe: 'Urbanization', enet: 'IneffectiveDisasterPreparedness' },
+          { rank: 11, lasso: 'Landslides', sfs: 'PoliticalFactors', rfe: 'WetlandLoss', enet: 'Landslides' },
+          { rank: 12, lasso: 'InadequatePlanning', sfs: 'DrainageSystems', rfe: 'Watersheds', enet: 'InadequatePlanning' },
+          { rank: 13, lasso: 'DrainageSystems', sfs: 'Encroachments', rfe: 'InadequatePlanning', enet: 'DrainageSystems' },
+          { rank: 14, lasso: 'WetlandLoss', sfs: 'RiverManagement', rfe: 'CoastalVulnerability', enet: 'WetlandLoss' },
+          { rank: 15, lasso: 'Siltation', sfs: 'InadequatePlanning', rfe: 'DrainageSystems', enet: 'Siltation' },
+          { rank: 16, lasso: 'Deforestation', sfs: 'Deforestation', rfe: 'Encroachments', enet: 'Deforestation' },
+          { rank: 17, lasso: 'AgriculturalPractices', sfs: 'IneffectiveDisasterPreparedness', rfe: 'Deforestation', enet: 'AgriculturalPractices' },
+          { rank: 18, lasso: 'ClimateChange', sfs: 'WetlandLoss', rfe: 'AgriculturalPractices', enet: 'ClimateChange' },
+          { rank: 19, lasso: 'DeterioratingInfrastructure', sfs: 'AgriculturalPractices', rfe: 'DeterioratingInfrastructure', enet: 'DeterioratingInfrastructure' },
+          { rank: 20, lasso: 'MonsoonIntensity', sfs: 'Landslides', rfe: 'MonsoonIntensity', enet: 'MonsoonIntensity' }
+        ],
+
+        vif: [
+          { feature: 'MonsoonIntensity', vif: 1.0024 }, { feature: 'TopographyDrainage', vif: 1.0028 },
+          { feature: 'RiverManagement', vif: 1.0021 }, { feature: 'Deforestation', vif: 1.0031 },
+          { feature: 'Urbanization', vif: 1.0029 }, { feature: 'ClimateChange', vif: 1.0025 },
+          { feature: 'DamsQuality', vif: 1.0032 }, { feature: 'Siltation', vif: 1.0019 },
+          { feature: 'AgriculturalPractices', vif: 1.0036 }, { feature: 'Encroachments', vif: 1.0027 },
+          { feature: 'IneffectiveDisasterPreparedness', vif: 1.0029 }, { feature: 'DrainageSystems', vif: 1.0033 },
+          { feature: 'CoastalVulnerability', vif: 1.0028 }, { feature: 'Landslides', vif: 1.0030 },
+          { feature: 'Watersheds', vif: 1.0026 }, { feature: 'DeterioratingInfrastructure', vif: 1.0025 },
+          { feature: 'PopulationScore', vif: 1.0034 }, { feature: 'WetlandLoss', vif: 1.0035 },
+          { feature: 'InadequatePlanning', vif: 1.0027 }, { feature: 'PoliticalFactors', vif: 1.0017 }
+        ]
+      },
+
+      startup: {
+        id: 'startup',
+        name: '50 Startups Profit Prediction',
+        nameZh: '50 家新創企業淨利潤預測',
+        badge: 'Project B (50 Startups)',
+        icon: '🚀',
+        subtitle: '50 Startups Dataset · 3 Financial + State Categorical · N = 50',
+        targetCol: 'Profit',
+        targetNameZh: '企業淨利潤 (Profit)',
+        unitSymbol: '$',
+        unitPosition: 'prefix',
+        trainSamples: '32',
+        testSamples: '10',
+        totalSamples: '50',
+        r2Stat: '0.9623',
+        kMax: 5,
+        exhaustiveKMax: 5,
+        intercept: 50125.3438,
+        disclaimer: 'ℹ️ 本利潤估計係基於 50 Startups 經典多元線性迴歸模型之常態營運推估，各變數係數反映歷史固定邊際貢獻，未計入融資稀釋或黑天鵝系統性市場衝擊。',
+        galleryBase: 'results/startup/',
+
+        features: [
+          { id: 'R&D Spend', name: 'R&D Spend (研發支出)', group: 'financial', coef: 0.806023, min: 0, max: 200000, step: 1000, default: 73721 },
+          { id: 'Administration', name: 'Administration (管理費用)', group: 'financial', coef: -0.027004, min: 0, max: 200000, step: 1000, default: 121344 },
+          { id: 'Marketing Spend', name: 'Marketing Spend (市場行銷費用)', group: 'financial', coef: 0.026980, min: 0, max: 500000, step: 1000, default: 211025 },
+          { id: 'State', name: 'State (企業註冊州別)', group: 'categorical', isCategorical: true, default: 'California',
+            options: [
+              { value: 'California', text: 'California (加利福尼亞州 - 基準參考組 Reference)', fl: 0, ny: 0 },
+              { value: 'Florida', text: 'Florida (佛羅里達州 - D_FL=1, D_NY=0)', fl: 1, ny: 0 },
+              { value: 'New York', text: 'New York (紐約州 - D_FL=0, D_NY=1)', fl: 0, ny: 1 }
+            ],
+            coef_FL: 198.7888,
+            coef_NY: -41.8870
+          }
+        ],
+
+        groups: [
+          { key: 'financial', name: '💵 關鍵營運與財務支出因子 (3 項)' },
+          { key: 'categorical', name: '📍 地理區域與類別變數 (State)' }
+        ],
+
+        presets: [
+          { name: '🚀 紐約高研發科技旗艦', values: { 'R&D Spend': 165000, 'Administration': 135000, 'Marketing Spend': 470000, 'State': 'New York' } },
+          { name: '📢 佛州市場行銷驅動型', values: { 'R&D Spend': 100000, 'Administration': 95000, 'Marketing Spend': 380000, 'State': 'Florida' } },
+          { name: '⚖️ 加州平衡穩健營運型', values: { 'R&D Spend': 75000, 'Administration': 115000, 'Marketing Spend': 200000, 'State': 'California' } },
+          { name: '💡 加州精實自籌創業型', values: { 'R&D Spend': 20000, 'Administration': 50000, 'Marketing Spend': 25000, 'State': 'California' } }
+        ],
+
+        optimalKPerMethod: {
+          'Lasso L1': { k: 2, rmse: 9122.84, r2: 0.96005 },
+          'Forward SFS': { k: 2, rmse: 9122.84, r2: 0.96005 },
+          'RFE': { k: 3, rmse: 8857.98, r2: 0.96234 },
+          'ElasticNet': { k: 2, rmse: 9122.84, r2: 0.96005 },
+          'Exhaustive Search': { k: 2, rmse: 9122.84, r2: 0.96005 }
+        },
+
+        benchmarkComparison: [
+          { model: 'RFE 遞迴淘汰 (最佳配置)', k: 3, features: 'R&D Spend, Marketing Spend, Administration', mae: 7718.24, mse: 78463844.5, rmse: 8857.98, r2: 0.96234, adj_r2: 0.93409 },
+          { model: 'Forward SFS', k: 2, features: 'R&D Spend, Marketing Spend', mae: 7682.29, mse: 83226190.6, rmse: 9122.84, r2: 0.96005, adj_r2: 0.94407 },
+          { model: 'Exhaustive Search', k: 2, features: 'R&D Spend, Marketing Spend', mae: 7682.29, mse: 83226190.6, rmse: 9122.84, r2: 0.96005, adj_r2: 0.94407 },
+          { model: 'Lasso (L1)', k: 2, features: 'R&D Spend, Marketing Spend', mae: 7682.29, mse: 83226190.6, rmse: 9122.84, r2: 0.96005, adj_r2: 0.94407 },
+          { model: 'ElasticNet', k: 2, features: 'R&D Spend, Marketing Spend', mae: 7682.29, mse: 83226190.6, rmse: 9122.84, r2: 0.96005, adj_r2: 0.94407 },
+          { model: 'Baseline (全 5 特徵)', k: 5, features: 'R&D Spend, Administration, Marketing Spend, State_Florida, State_New York', mae: 7946.61, mse: 95941526.0, rmse: 9794.97, r2: 0.95395, adj_r2: 0.83882 }
+        ],
+
+        curveK: [1, 2, 3, 4, 5],
+        curves: {
+          'Lasso L1': {
+            rmse: [9294.39, 9122.84, 9786.65, 10370.15, 9794.97],
+            r2:   [0.95854, 0.96005, 0.95403, 0.94838, 0.95395],
+            features: ["R&D Spend", "Marketing Spend", "State_Florida", "State_New York", "Administration"]
+          },
+          'Forward SFS': {
+            rmse: [9294.39, 9122.84, 9786.65, 9433.59, 9794.97],
+            r2:   [0.95854, 0.96005, 0.95403, 0.95728, 0.95395],
+            features: ["R&D Spend", "Marketing Spend", "State_Florida", "Administration", "State_New York"]
+          },
+          'RFE': {
+            rmse: [9294.39, 9122.84, 8857.98, 9433.59, 9794.97],
+            r2:   [0.95854, 0.96005, 0.96234, 0.95728, 0.95395],
+            features: ["R&D Spend", "Marketing Spend", "Administration", "State_Florida", "State_New York"]
+          },
+          'ElasticNet': {
+            rmse: [9294.39, 9122.84, 9786.65, 10370.15, 9794.97],
+            r2:   [0.95854, 0.96005, 0.95403, 0.94838, 0.95395],
+            features: ["R&D Spend", "Marketing Spend", "State_Florida", "State_New York", "Administration"]
+          },
+          'Exhaustive Search': {
+            rmse: [9294.39, 9122.84, 9786.65, 9433.59, 9794.97],
+            r2:   [0.95854, 0.96005, 0.95403, 0.95728, 0.95395],
+            features: ["R&D Spend", "Marketing Spend", "State_Florida", "Administration", "State_New York"]
+          }
+        },
+
+        rankings: [
+          { rank: 1, lasso: 'R&D Spend', sfs: 'R&D Spend', rfe: 'R&D Spend', enet: 'R&D Spend' },
+          { rank: 2, lasso: 'Marketing Spend', sfs: 'Marketing Spend', rfe: 'Marketing Spend', enet: 'Marketing Spend' },
+          { rank: 3, lasso: 'State_Florida', sfs: 'State_Florida', rfe: 'Administration', enet: 'State_Florida' },
+          { rank: 4, lasso: 'State_New York', sfs: 'Administration', rfe: 'State_Florida', enet: 'State_New York' },
+          { rank: 5, lasso: 'Administration', sfs: 'State_New York', rfe: 'State_New York', enet: 'Administration' }
+        ],
+
+        vif: [
+          { feature: 'Marketing Spend', vif: 2.1528 },
+          { feature: 'R&D Spend', vif: 2.0745 },
+          { feature: 'State_Florida', vif: 1.3542 },
+          { feature: 'State_New York', vif: 1.3088 },
+          { feature: 'Administration', vif: 1.2032 }
+        ]
+      }
+    };
+
+    // -------------------------------------------------------------------------
+    // 2. STATE MANAGEMENT
+    // -------------------------------------------------------------------------
+    let currentProject = 'flood';
+    let currentTab = 'calculator';
+    let currentAlgo = 'Forward SFS';
+    
+    // Independent k state per project
+    const projectKState = {
+      flood: 20,
+      startup: 3
+    };
+    const projectAlgoState = {
+      flood: 'Forward SFS',
+      startup: 'RFE'
+    };
+    
+    // Benchmark metric toggle
+    let benchmarkMetric = 'RMSE'; // or 'R2'
+
+    // Chart instances
+    let benchmarkChartInstance = null;
+    let rmseCurveChartInstance = null;
+    let r2CurveChartInstance = null;
+
+    // -------------------------------------------------------------------------
+    // 3. PROJECT SWITCHING LOGIC (PART 2)
+    // -------------------------------------------------------------------------
+    function onProjectChange(newProjectId) {
+      if (newProjectId === currentProject) return;
+      currentProject = newProjectId;
+      currentAlgo = projectAlgoState[currentProject];
+
+      // Update Header & Indicator
+      const p = PROJECTS[currentProject];
+      document.getElementById('brand-icon').innerText = p.icon;
+      document.getElementById('p-ind-badge').innerText = p.badge;
+      document.getElementById('p-ind-title').innerText = p.name;
+      document.getElementById('p-ind-sub').innerText = p.subtitle;
+      document.getElementById('stat-train-num').innerText = p.trainSamples;
+      document.getElementById('stat-test-num').innerText = p.testSamples;
+      document.getElementById('stat-r2-num').innerText = p.r2Stat;
+      document.getElementById('tab-curves-k-label').innerText = `1-${p.kMax}`;
+
+      // Re-render Calculator Tab
+      renderCalculatorInputs();
+      updateCalculatorPrediction();
+
+      // Re-render k-controller
+      renderAlgoPills();
+      const kSlider = document.getElementById('k-interactive-slider');
+      kSlider.max = p.kMax;
+      kSlider.value = projectKState[currentProject];
+      document.getElementById('k-slider-max-label').innerText = `最大特徵數 (k = ${p.kMax})`;
+      onKChange(projectKState[currentProject]);
+
+      // Re-render Benchmark Tab
+      renderBenchmarkTable();
+      renderBenchmarkChart();
+
+      // Re-render Curves Tab
+      renderCurvesCharts();
+      renderRankingsTable();
+
+      // Re-render Gallery Tab
+      renderGallery();
+
+      // Re-render APA Report Tab
+      renderApaReport();
+    }
+
+    // -------------------------------------------------------------------------
+    // 4. TAB NAVIGATION
+    // -------------------------------------------------------------------------
+    function switchTab(tabName, clickedBtn) {
+      currentTab = tabName;
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      const targetPane = document.getElementById(`${tabName}-tab`);
+      if (targetPane) targetPane.classList.add('active');
+      if (clickedBtn) clickedBtn.classList.add('active');
+
+      // Trigger Chart resize if switching to curves or benchmark
+      if (tabName === 'benchmark') {
+        setTimeout(() => { if (benchmarkChartInstance) benchmarkChartInstance.resize(); }, 50);
+      } else if (tabName === 'curves') {
+        setTimeout(() => {
+          if (rmseCurveChartInstance) rmseCurveChartInstance.resize();
+          if (r2CurveChartInstance) r2CurveChartInstance.resize();
+        }, 50);
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 5. TAB 1: CALCULATOR RENDERING & LOGIC
+    // -------------------------------------------------------------------------
+    function renderCalculatorInputs() {
+      const p = PROJECTS[currentProject];
+      const container = document.getElementById('dynamic-inputs-container');
+      const presetsContainer = document.getElementById('preset-pills-container');
+      
+      document.getElementById('calc-panel-title').innerText = currentProject === 'flood' ? 
+        '🎛️ 洪水風險因子輸入控制面板' : '🎛️ 新創營運投入因子控制面板';
+      document.getElementById('calc-panel-desc').innerText = currentProject === 'flood' ? 
+        '調整 20 項水文環境與治理變數（0-19）即時預測洪水機率' : '調整 3 大財務支出與所在州別 (State) 即時預測新創利潤';
+      document.getElementById('hero-target-label').innerText = currentProject === 'flood' ?
+        '預測洪水發生機率 (FloodProbability)' : '預測新創企業淨利潤 (Profit)';
+      document.getElementById('hero-disclaimer-text').innerText = p.disclaimer;
+
+      // Render Presets
+      presetsContainer.innerHTML = p.presets.map((preset, idx) => `
+        <button class="preset-pill" onclick="loadPreset(${idx})">${preset.name}</button>
+      `).join('');
+
+      // Render Inputs grouped
+      let html = '';
+      p.groups.forEach(group => {
+        html += `<div class="input-section-title">${group.name}</div>`;
+        const groupFeats = p.features.filter(f => f.group === group.key);
+        
+        const colsClass = groupFeats.length > 2 ? 'variable-grid cols-2' : 'variable-grid';
+        html += `<div class="${colsClass}">`;
+        
+        groupFeats.forEach(f => {
+          if (f.isCategorical) {
+            // Dropdown Select
+            html += `
+              <div class="variable-row" style="grid-column: 1 / -1;">
+                <div class="var-header">
+                  <span class="var-name">📍 ${f.name}</span>
+                  <span class="var-code">Reference: California</span>
+                </div>
+                <select class="var-select" id="var-input-${f.id}" onchange="updateCalculatorPrediction()">
+                  ${f.options.map(opt => `<option value="${opt.value}">${opt.text}</option>`).join('')}
+                </select>
+              </div>
+            `;
+          } else {
+            // Slider + Number input
+            html += `
+              <div class="variable-row">
+                <div class="var-header">
+                  <span class="var-name">${f.name}</span>
+                  <span class="var-code">β = ${f.coef > 0 ? '+' : ''}${f.coef.toFixed(currentProject==='flood'?6:4)}</span>
+                </div>
+                <div class="var-controls">
+                  <input type="range" class="var-slider" id="var-slider-${f.id}" 
+                    min="${f.min}" max="${f.max}" step="${f.step || 1}" value="${f.default}"
+                    oninput="syncVarInput('${f.id}', this.value, true)">
+                  <input type="number" class="var-input" id="var-input-${f.id}" 
+                    min="${f.min}" max="${f.max}" step="${f.step || 1}" value="${f.default}"
+                    oninput="syncVarInput('${f.id}', this.value, false)">
+                </div>
+              </div>
+            `;
+          }
+        });
+        html += `</div>`;
+      });
+
+      container.innerHTML = html;
+      renderMetricGrid();
+      renderEquationBox();
+    }
+
+    function syncVarInput(featId, val, fromSlider) {
+      const numVal = parseFloat(val) || 0;
+      if (fromSlider) {
+        document.getElementById(`var-input-${featId}`).value = numVal;
+      } else {
+        document.getElementById(`var-slider-${featId}`).value = numVal;
+      }
+      updateCalculatorPrediction();
+    }
+
+    function resetCalculatorDefaults() {
+      const p = PROJECTS[currentProject];
+      p.features.forEach(f => {
+        if (f.isCategorical) {
+          document.getElementById(`var-input-${f.id}`).value = f.default;
+        } else {
+          document.getElementById(`var-slider-${f.id}`).value = f.default;
+          document.getElementById(`var-input-${f.id}`).value = f.default;
+        }
+      });
+      updateCalculatorPrediction();
+    }
+
+    function loadPreset(presetIdx) {
+      const p = PROJECTS[currentProject];
+      const preset = p.presets[presetIdx];
+      resetCalculatorDefaults();
+      for (const [featId, val] of Object.entries(preset.values)) {
+        const slider = document.getElementById(`var-slider-${featId}`);
+        const input = document.getElementById(`var-input-${featId}`);
+        if (slider) slider.value = val;
+        if (input) input.value = val;
+      }
+      updateCalculatorPrediction();
+    }
+
+    function updateCalculatorPrediction() {
+      const p = PROJECTS[currentProject];
+      let prediction = p.intercept;
+      const contributions = [];
+
+      if (currentProject === 'flood') {
+        p.features.forEach(f => {
+          const val = parseFloat(document.getElementById(`var-input-${f.id}`).value) || 0;
+          const contrib = val * f.coef;
+          prediction += contrib;
+          contributions.push({
+            name: f.name,
+            val: val,
+            coef: f.coef,
+            contrib: contrib
+          });
+        });
+
+        // Bounded display
+        const displayVal = prediction.toFixed(4);
+        const percentVal = (prediction * 100).toFixed(1) + '%';
+        document.getElementById('hero-main-value').innerText = displayVal;
+        document.getElementById('hero-sub-value').innerText = `(${percentVal})`;
+
+        // Risk Meter & Badge
+        const meterPercent = Math.max(0, Math.min(100, (prediction - 0.35) / (0.65 - 0.35) * 100));
+        const meterFill = document.getElementById('risk-meter-fill');
+        const badge = document.getElementById('hero-status-badge');
+        meterFill.style.width = `${meterPercent}%`;
+
+        if (prediction < 0.45) {
+          meterFill.style.backgroundColor = 'var(--success)';
+          badge.className = 'status-badge';
+          badge.style.background = 'rgba(16, 185, 129, 0.2)';
+          badge.style.color = '#34d399';
+          badge.innerText = '🟢 低風險 (Low Risk)';
+        } else if (prediction < 0.52) {
+          meterFill.style.backgroundColor = '#38bdf8';
+          badge.className = 'status-badge';
+          badge.style.background = 'rgba(56, 189, 248, 0.2)';
+          badge.style.color = '#38bdf8';
+          badge.innerText = '🔵 歷史基準中度 (Medium)';
+        } else if (prediction < 0.58) {
+          meterFill.style.backgroundColor = 'var(--warning)';
+          badge.className = 'status-badge';
+          badge.style.background = 'rgba(245, 158, 11, 0.2)';
+          badge.style.color = '#fbbf24';
+          badge.innerText = '🟡 高風險警戒 (High)';
+        } else {
+          meterFill.style.backgroundColor = 'var(--danger)';
+          badge.className = 'status-badge';
+          badge.style.background = 'rgba(239, 68, 68, 0.2)';
+          badge.style.color = '#f87171';
+          badge.innerText = '🔴 極度高危 (Severe)';
+        }
+
+      } else {
+        // 50 Startups
+        const rd = parseFloat(document.getElementById('var-input-R&D Spend').value) || 0;
+        const admin = parseFloat(document.getElementById('var-input-Administration').value) || 0;
+        const mkt = parseFloat(document.getElementById('var-input-Marketing Spend').value) || 0;
+        const state = document.getElementById('var-input-State').value;
+
+        const rdCoef = 0.806023;
+        const adminCoef = -0.027004;
+        const mktCoef = 0.026980;
+        let stateContrib = 0;
+        let stateText = 'California (Reference: $0.00)';
+
+        if (state === 'Florida') {
+          stateContrib = 198.7888;
+          stateText = 'Florida (+ $198.79)';
+        } else if (state === 'New York') {
+          stateContrib = -41.8870;
+          stateText = 'New York (- $41.89)';
+        }
+
+        const rdContrib = rd * rdCoef;
+        const adminContrib = admin * adminCoef;
+        const mktContrib = mkt * mktCoef;
+
+        prediction = p.intercept + rdContrib + adminContrib + mktContrib + stateContrib;
+
+        document.getElementById('hero-main-value').innerText = '$' + prediction.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('hero-sub-value').innerText = `淨利率推估`;
+
+        // Status Badge
+        const meterPercent = Math.max(0, Math.min(100, prediction / 200000 * 100));
+        const meterFill = document.getElementById('risk-meter-fill');
+        const badge = document.getElementById('hero-status-badge');
+        meterFill.style.width = `${meterPercent}%`;
+
+        if (prediction >= 150000) {
+          meterFill.style.backgroundColor = 'var(--success)';
+          badge.style.background = 'rgba(16, 185, 129, 0.2)';
+          badge.style.color = '#34d399';
+          badge.innerText = '🟢 卓越獲利 (High Profit)';
+        } else if (prediction >= 100000) {
+          meterFill.style.backgroundColor = '#38bdf8';
+          badge.style.background = 'rgba(56, 189, 248, 0.2)';
+          badge.style.color = '#38bdf8';
+          badge.innerText = '🔵 穩健盈餘 (Healthy)';
+        } else if (prediction >= 60000) {
+          meterFill.style.backgroundColor = 'var(--warning)';
+          badge.style.background = 'rgba(245, 158, 11, 0.2)';
+          badge.style.color = '#fbbf24';
+          badge.innerText = '🟡 微幅獲利 (Moderate)';
+        } else {
+          meterFill.style.backgroundColor = 'var(--danger)';
+          badge.style.background = 'rgba(239, 68, 68, 0.2)';
+          badge.style.color = '#f87171';
+          badge.innerText = '🔴 潛在虧損 (At Risk)';
+        }
+
+        contributions.push(
+          { name: 'R&D Spend (研發支出)', val: '$' + rd.toLocaleString(), coef: rdCoef, contrib: rdContrib },
+          { name: 'Administration (管理費用)', val: '$' + admin.toLocaleString(), coef: adminCoef, contrib: adminContrib },
+          { name: 'Marketing Spend (市場行銷)', val: '$' + mkt.toLocaleString(), coef: mktCoef, contrib: mktContrib },
+          { name: 'State 地理效應 (' + state + ')', val: state, coef: stateContrib ? (state==='Florida'?198.79:-41.89) : 0, contrib: stateContrib }
+        );
+      }
+
+      // Render Contribution Breakdown Table
+      const tb = document.getElementById('contribution-table-body');
+      tb.innerHTML = contributions.map(c => `
+        <tr>
+          <td><strong>${c.name}</strong></td>
+          <td style="font-family: 'JetBrains Mono';">${c.val}</td>
+          <td style="font-family: 'JetBrains Mono';">${typeof c.coef === 'number' ? (c.coef>0?'+':'') + c.coef.toFixed(currentProject==='flood'?6:4) : c.coef}</td>
+          <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: ${c.contrib>=0?'#047857':'#b91c1c'};">
+            ${c.contrib >= 0 ? '+' : ''}${currentProject==='flood' ? c.contrib.toFixed(6) : '$' + c.contrib.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderEquationBox() {
+      const p = PROJECTS[currentProject];
+      const box = document.getElementById('equation-display-box');
+      if (currentProject === 'flood') {
+        box.innerHTML = `
+ŷ = -0.053299 + 0.005612·(Monsoon) + 0.005648·(Topography) + 0.005663·(ClimateChange) 
+    + 0.005642·(Landslides) + 0.005671·(Coastal) + 0.005666·(RiverMgmt) + 0.005655·(Dams)
+    + 0.005636·(Drainage) + 0.005616·(Infra) + 0.005679·(Deforest) + 0.005658·(Urban)
+    + 0.005638·(Siltation) + 0.005635·(Agri) + 0.005650·(Encroach) + 0.005635·(Wetland)
+    + 0.005647·(Watersheds) + 0.005640·(Preparedness) + 0.005678·(Population)
+    + 0.005609·(Planning) + 0.005649·(Political)
+        `;
+      } else {
+        box.innerHTML = `
+ŷ (Profit) = $50,125.34 + 0.806023·(R&D Spend) - 0.027004·(Administration) 
+             + 0.026980·(Marketing Spend) + $198.79·(State_Florida) - $41.89·(State_New York)
+
+* Reference Category: California (D_Florida = 0, D_New York = 0)
+        `;
+      }
+    }
+
+    function renderMetricGrid() {
+      const p = PROJECTS[currentProject];
+      const grid = document.getElementById('metric-grid-container');
+      if (currentProject === 'flood') {
+        grid.innerHTML = `
+          <div class="metric-card"><div class="title">決定係數 R²</div><div class="val">0.8456</div></div>
+          <div class="metric-card"><div class="title">Adjusted R²</div><div class="val">0.8456</div></div>
+          <div class="metric-card"><div class="title">驗證集 RMSE</div><div class="val">0.0201</div></div>
+          <div class="metric-card"><div class="title">驗證集 MAE</div><div class="val">0.0158</div></div>
+          <div class="metric-card"><div class="title">平均 VIF</div><div class="val">1.0028</div></div>
+          <div class="metric-card"><div class="title">整體 F 檢定</div><div class="val">48,943</div></div>
+        `;
+      } else {
+        grid.innerHTML = `
+          <div class="metric-card"><div class="title">最佳模型 R²</div><div class="val">0.9623</div></div>
+          <div class="metric-card"><div class="title">Holdout Test R²</div><div class="val">0.9001</div></div>
+          <div class="metric-card"><div class="title">Test RMSE</div><div class="val">$8,996</div></div>
+          <div class="metric-card"><div class="title">Test MAE</div><div class="val">$6,979</div></div>
+          <div class="metric-card"><div class="title">最大 VIF</div><div class="val">2.1528</div></div>
+          <div class="metric-card"><div class="title">樣本總數 N</div><div class="val">50</div></div>
+        `;
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 6. PART 5: INTERACTIVE FEATURE COUNT CONTROLLER (k)
+    // -------------------------------------------------------------------------
+    function renderAlgoPills() {
+      const p = PROJECTS[currentProject];
+      const group = document.getElementById('algo-picker-group');
+      const algos = ['Lasso L1', 'Forward SFS', 'RFE', 'ElasticNet', 'Exhaustive Search'];
+      group.innerHTML = algos.map(algo => `
+        <button class="algo-pill ${algo === currentAlgo ? 'active' : ''}" 
+          onclick="setSelectAlgorithm('${algo}')">${algo}</button>
+      `).join('');
+    }
+
+    function setSelectAlgorithm(algoName) {
+      currentAlgo = algoName;
+      projectAlgoState[currentProject] = algoName;
+      renderAlgoPills();
+      onKChange(projectKState[currentProject]);
+    }
+
+    function onKChange(newK) {
+      const p = PROJECTS[currentProject];
+      
+      // Handle Exhaustive Search max bound
+      if (currentAlgo === 'Exhaustive Search' && newK > p.exhaustiveKMax) {
+        newK = p.exhaustiveKMax;
+      }
+      if (newK < 1) newK = 1;
+      if (newK > p.kMax) newK = p.kMax;
+
+      projectKState[currentProject] = newK;
+      document.getElementById('k-interactive-slider').value = newK;
+      document.getElementById('k-number-display').innerText = newK;
+
+      // Lookup optimal k for current algorithm
+      const optData = p.optimalKPerMethod[currentAlgo] || { k: 1, rmse: 0, r2: 0 };
+      const optK = optData.k;
+
+      // Update optimal badge
+      document.getElementById('optimal-k-badge').innerHTML = 
+        `★ 演算法最佳甜點 (${currentAlgo}): k = ${optK} (Min Validation RMSE)`;
+
+      // Lookup current selected k data
+      const curveData = p.curves[currentAlgo];
+      const kIdx = newK - 1;
+      const currRmse = curveData.rmse[kIdx] !== undefined ? curveData.rmse[kIdx] : null;
+      const currR2 = curveData.r2[kIdx] !== undefined ? curveData.r2[kIdx] : null;
+
+      document.getElementById('k-curr-val').innerText = newK;
+      document.getElementById('k-opt-val').innerText = `${optK} ★`;
+
+      if (currRmse !== null) {
+        document.getElementById('k-curr-rmse').innerText = currentProject==='flood' ? currRmse.toFixed(5) : '$' + currRmse.toLocaleString('en-US', {maximumFractionDigits: 2});
+        document.getElementById('k-curr-r2').innerText = currR2.toFixed(4);
+      } else {
+        document.getElementById('k-curr-rmse').innerText = '未評估 (N/A)';
+        document.getElementById('k-curr-r2').innerText = '未評估 (N/A)';
+      }
+
+      const optRmseVal = optData.rmse;
+      const optR2Val = optData.r2;
+      document.getElementById('k-opt-rmse').innerText = currentProject==='flood' ? optRmseVal.toFixed(5) : '$' + optRmseVal.toLocaleString('en-US', {maximumFractionDigits: 2});
+      document.getElementById('k-opt-r2').innerText = optR2Val.toFixed(4);
+
+      // Selected features line
+      const selectedFeaturesSlice = curveData.features.slice(0, newK);
+      document.getElementById('k-features-text').innerText = selectedFeaturesSlice.join(', ');
+
+      // Update Curves Vertical Marker Line
+      updateCurvesChartsMarker(newK);
+    }
+
+    // -------------------------------------------------------------------------
+    // 7. TAB 2: BENCHMARK TABLE & CHART
+    // -------------------------------------------------------------------------
+    function renderBenchmarkTable() {
+      const p = PROJECTS[currentProject];
+      const tbody = document.getElementById('benchmark-table-body');
+      tbody.innerHTML = p.benchmarkComparison.map((row, idx) => {
+        const isBest = (currentProject === 'flood' && row.k === 20) || (currentProject === 'startup' && row.model.includes('RFE'));
+        return `
+          <tr class="${isBest ? 'best-row' : ''}">
+            <td><strong>${isBest ? '★ ' : ''}${row.model}</strong></td>
+            <td style="font-family: 'JetBrains Mono'; font-weight: 700;">${row.k}</td>
+            <td style="font-size: 0.8rem; color: var(--slate-600); max-width: 320px;">${row.features}</td>
+            <td style="font-family: 'JetBrains Mono';">${currentProject==='flood' ? row.mae.toFixed(5) : '$'+row.mae.toLocaleString()}</td>
+            <td style="font-family: 'JetBrains Mono'; font-size: 0.78rem;">${currentProject==='flood' ? row.mse.toFixed(6) : row.mse.toExponential(3)}</td>
+            <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #2563eb;">${currentProject==='flood' ? row.rmse.toFixed(5) : '$'+row.rmse.toLocaleString()}</td>
+            <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #10b981;">${row.r2.toFixed(4)}</td>
+            <td style="font-family: 'JetBrains Mono';">${row.adj_r2.toFixed(4)}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function switchBenchmarkMetric(metric) {
+      benchmarkMetric = metric;
+      renderBenchmarkChart();
+    }
+
+    function renderBenchmarkChart() {
+      const p = PROJECTS[currentProject];
+      const ctx = document.getElementById('benchmarkBarChart').getContext('2d');
+      if (benchmarkChartInstance) benchmarkChartInstance.destroy();
+
+      const labels = p.benchmarkComparison.map(r => r.model);
+      const dataValues = p.benchmarkComparison.map(r => benchmarkMetric === 'RMSE' ? r.rmse : r.r2);
+
+      benchmarkChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: benchmarkMetric === 'RMSE' ? 'Validation RMSE (越低越好)' : 'Validation R² 決定係數 (越高越好)',
+            data: dataValues,
+            backgroundColor: benchmarkMetric === 'RMSE' ? 'rgba(37, 99, 235, 0.85)' : 'rgba(16, 185, 129, 0.85)',
+            borderColor: benchmarkMetric === 'RMSE' ? '#2563eb' : '#10b981',
+            borderWidth: 1.5,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'top', labels: { font: { family: 'Inter', weight: 600 } } },
+            tooltip: {
+              callbacks: {
+                label: function(ctx) {
+                  return `${benchmarkMetric}: ${currentProject==='flood' ? ctx.parsed.y.toFixed(5) : (benchmarkMetric==='RMSE'?'$'+ctx.parsed.y.toLocaleString():ctx.parsed.y.toFixed(4))}`;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: false,
+              grid: { color: 'rgba(226, 232, 240, 0.8)' },
+              ticks: { font: { family: 'JetBrains Mono' } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { family: 'Inter', weight: 600 } }
+            }
+          }
+        }
+      });
+    }
+
+    // -------------------------------------------------------------------------
+    // 8. TAB 3: DUAL CURVES (RMSE & R2) WITH STARRED OPTIMAL & CLICK SELECTION
+    // -------------------------------------------------------------------------
+    function renderCurvesCharts() {
+      const p = PROJECTS[currentProject];
+      const kValues = p.curveK;
+      const currentSelectedK = projectKState[currentProject];
+
+      const colors = {
+        'Lasso L1': '#e11d48',
+        'Forward SFS': '#2563eb',
+        'RFE': '#16a34a',
+        'ElasticNet': '#d97706',
+        'Exhaustive Search': '#9333ea'
+      };
+
+      // 1. Build RMSE Datasets
+      const rmseDatasets = [];
+      for (const [method, cData] of Object.entries(p.curves)) {
+        const optK = p.optimalKPerMethod[method].k;
+        const pointStyles = cData.rmse.map((_, idx) => (idx + 1 === optK ? 'star' : 'circle'));
+        const pointRadii = cData.rmse.map((_, idx) => (idx + 1 === optK ? 9 : 4));
+
+        rmseDatasets.push({
+          label: method + ` (★ k=${optK})`,
+          data: cData.rmse,
+          borderColor: colors[method],
+          backgroundColor: colors[method],
+          tension: 0.2,
+          pointStyle: pointStyles,
+          pointRadius: pointRadii,
+          pointHoverRadius: 8
+        });
+      }
+
+      // 2. Build R2 Datasets
+      const r2Datasets = [];
+      for (const [method, cData] of Object.entries(p.curves)) {
+        const optK = p.optimalKPerMethod[method].k;
+        const pointStyles = cData.r2.map((_, idx) => (idx + 1 === optK ? 'star' : 'rect'));
+        const pointRadii = cData.r2.map((_, idx) => (idx + 1 === optK ? 9 : 4));
+
+        r2Datasets.push({
+          label: method + ` (★ k=${optK})`,
+          data: cData.r2,
+          borderColor: colors[method],
+          backgroundColor: colors[method],
+          tension: 0.2,
+          pointStyle: pointStyles,
+          pointRadius: pointRadii,
+          pointHoverRadius: 8
+        });
+      }
+
+      // Click callback handler
+      const clickHandler = (event, elements) => {
+        if (elements && elements.length > 0) {
+          const clickedIdx = elements[0].index;
+          const selectedK = kValues[clickedIdx];
+          onKChange(selectedK);
+        }
+      };
+
+      // Graph A: RMSE
+      const ctxRmse = document.getElementById('rmseCurveChart').getContext('2d');
+      if (rmseCurveChartInstance) rmseCurveChartInstance.destroy();
+      rmseCurveChartInstance = new Chart(ctxRmse, {
+        type: 'line',
+        data: { labels: kValues, datasets: rmseDatasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: clickHandler,
+          plugins: {
+            legend: { position: 'top', labels: { boxWidth: 12, font: { family: 'Inter', size: 11 } } },
+            tooltip: {
+              callbacks: {
+                label: function(ctx) {
+                  return `${ctx.dataset.label}: ${currentProject==='flood' ? ctx.parsed.y.toFixed(5) : '$'+ctx.parsed.y.toLocaleString()}`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: { title: { display: true, text: '特徵數量 (Number of Features k)', font: { weight: 'bold' } } },
+            y: { title: { display: true, text: 'Validation RMSE (越低越好)', font: { weight: 'bold' } } }
+          }
+        }
+      });
+
+      // Graph B: R2
+      const ctxR2 = document.getElementById('r2CurveChart').getContext('2d');
+      if (r2CurveChartInstance) r2CurveChartInstance.destroy();
+      r2CurveChartInstance = new Chart(ctxR2, {
+        type: 'line',
+        data: { labels: kValues, datasets: r2Datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: clickHandler,
+          plugins: {
+            legend: { position: 'top', labels: { boxWidth: 12, font: { family: 'Inter', size: 11 } } },
+            tooltip: {
+              callbacks: {
+                label: function(ctx) {
+                  return `${ctx.dataset.label}: R² = ${ctx.parsed.y.toFixed(4)}`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: { title: { display: true, text: '特徵數量 (Number of Features k)', font: { weight: 'bold' } } },
+            y: { title: { display: true, text: 'Validation R² Score (越高越好)', font: { weight: 'bold' } } }
+          }
+        }
+      });
+    }
+
+    function updateCurvesChartsMarker(k) {
+      // Highlight in charts if needed
+    }
+
+    function renderRankingsTable() {
+      const p = PROJECTS[currentProject];
+      const tbody = document.getElementById('ranking-table-body');
+      tbody.innerHTML = p.rankings.map(r => `
+        <tr>
+          <td style="font-family: 'JetBrains Mono'; font-weight: 700;">Rank ${r.rank}</td>
+          <td>${r.lasso}</td>
+          <td>${r.sfs}</td>
+          <td>${r.rfe}</td>
+          <td>${r.enet}</td>
+        </tr>
+      `).join('');
+    }
+
+    // -------------------------------------------------------------------------
+    // 9. TAB 4: RESEARCH VISUALIZATION GALLERY
+    // -------------------------------------------------------------------------
+    function renderGallery() {
+      const p = PROJECTS[currentProject];
+      const container = document.getElementById('gallery-grid-container');
+      const base = p.galleryBase;
+
+      const galleryItems = [
+        {
+          src: base + 'all_5_algorithms_comparison.png',
+          title: 'Figure 1: 五大演算法雙子圖綜合對比 (RMSE & R²)',
+          desc: '並列展示各特徵選擇演算法隨特徵數增加的 RMSE 遞減與 R² 累積路徑。'
+        },
+        {
+          src: base + 'feature_selection_comparison.png',
+          title: 'Figure 2: 特徵選擇方法與 Baseline 評估長條圖',
+          desc: '直觀呈現各演算法在關鍵特徵子集下的 RMSE 與決定係數橫向評估。'
+        },
+        {
+          src: base + 'actual_vs_predicted.png',
+          title: 'Figure 3: 最佳模型實際值 vs 預測值散佈圖 (y = x)',
+          desc: '展示觀察值與模型預測值之緊密貼合程度，點群高度集中於 y = x 理想線上。'
+        },
+        {
+          src: base + 'model_predictions_comparison.png',
+          title: 'Figure 4: 排序樣本之模型預測軌跡對比',
+          desc: '按真實目標值升序排列樣本，比對模型對動態趨勢的精確追蹤能力。'
+        },
+        {
+          src: base + 'feature_importance.png',
+          title: 'Figure 5: 全特徵標準化迴歸係數重要性排行',
+          desc: '以橫向長條圖呈現標準化係數絕對值幅度與正負影響效應。'
+        },
+        {
+          src: base + 'residual_analysis.png',
+          title: 'Figure 6: 最佳模型殘差分佈與常態性檢驗',
+          desc: '左圖檢驗同質變異數假設（在 0 線均勻發散），右圖直方圖檢驗殘差高斯常態分佈。'
+        },
+        {
+          src: base + 'rmse_vs_features.png',
+          title: 'Figure 7: 特徵數量 vs 驗證集 RMSE 曲線',
+          desc: '清晰標註各特徵選擇演算法取得最小驗證誤差之最佳甜點 (★)。'
+        },
+        {
+          src: base + 'r2_vs_features.png',
+          title: 'Figure 8: 特徵數量 vs 驗證集 R² 曲線',
+          desc: '呈現特徵維度擴展時模型總解釋力之邊際效益變化。'
+        }
+      ];
+
+      container.innerHTML = galleryItems.map(item => `
+        <div class="gallery-item">
+          <a href="${item.src}" target="_blank" title="點擊檢視 300 DPI 原圖">
+            <img src="${item.src}" alt="${item.title}" loading="lazy">
+          </a>
+          <h4>${item.title}</h4>
+          <p>${item.desc}</p>
+        </div>
+      `).join('');
+    }
+
+    // -------------------------------------------------------------------------
+    // 10. TAB 5: ACADEMIC STATISTICAL REPORT (APA 7TH FORMAT)
+    // -------------------------------------------------------------------------
+    function renderApaReport() {
+      const p = PROJECTS[currentProject];
+      const reportBox = document.getElementById('apa-report-text');
+      const extraDiv = document.getElementById('apa-extra-details');
+
+      if (currentProject === 'flood') {
+        reportBox.innerHTML = `
+          <strong>Results of Multiple Linear Regression Analysis (APA 7th Format):</strong><br><br>
+          A multiple linear regression analysis was conducted to predict flood probability (<em>FloodProbability</em>) based on 20 environmental, infrastructural, and socio-economic predictors (<em>N</em> = 1,117,957). The overall regression model incorporating all 20 predictors was statistically significant, <em>F</em>(20, 178852) = 48,943.21, <em>p</em> &lt; .001, with an <em>R</em><sup>2</sup> of .8456 (Adjusted <em>R</em><sup>2</sup> = .8456, RMSE = .0201, MAE = .0158). This indicates that approximately 84.56% of the variance in flood occurrence likelihood is collectively accounted for by the 20 environmental factors.<br><br>
+          All 20 predictor variables demonstrated statistically significant unique contributions (<em>p</em> &lt; .001). Multicollinearity diagnostic tests revealed that all Variance Inflation Factors (VIF) ranged between 1.0017 and 1.0036 (Mean VIF = 1.0028), well below the conventional conservative cutoff of 5.0, confirming the complete absence of multicollinearity. Evaluation on the completely independent 20% holdout test set (<em>N</em> = 223,592) demonstrated outstanding generalizability without evidence of overfitting (Holdout <em>R</em><sup>2</sup> = .8449, Holdout RMSE = .0201).
+        `;
+
+        extraDiv.innerHTML = `
+          <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--slate-900); margin-bottom: 0.85rem;">
+            🔍 關鍵研究問答精要 (Key Research Findings)
+          </h3>
+          <div style="display: grid; gap: 0.85rem; font-size: 0.88rem; color: var(--slate-700);">
+            <div style="background: var(--slate-50); padding: 0.85rem; border-radius: var(--radius-md); border-left: 4px solid var(--primary);">
+              <strong>Q1: 多少個特徵能產生最佳效能？使用全部 20 個特徵是否有必要？</strong><br>
+              <strong>答：</strong> 全部 20 個特徵產生全域最佳表現（$R^2 = 0.8456$）。實驗證實所有 20 個因子皆具備獨立預測價值，若僅保留 5 個特徵，$R^2$ 驟降至 0.1813，資訊損失達 66% 以上。
+            </div>
+            <div style="background: var(--slate-50); padding: 0.85rem; border-radius: var(--radius-md); border-left: 4px solid var(--success);">
+              <strong>Q2: 增加特徵是否會造成模型過擬合 (Overfitting)？</strong><br>
+              <strong>答：</strong> 數值證據明確顯示完全不會。在超過 71 萬筆訓練樣本的支撐下，訓練集、驗證集與獨立測試集之 $R^2$ 差異小於 0.0008。
+            </div>
+          </div>
+        `;
+      } else {
+        // 50 Startups Report
+        reportBox.innerHTML = `
+          <strong>Results of Multiple Linear Regression Analysis for 50 Startups (APA 7th Format):</strong><br><br>
+          A multiple linear regression analysis was conducted to predict venture net profit (<em>Profit</em>) based on financial expenditure predictors and geographic location (<em>N</em> = 50). Categorical location (<em>State</em>) was dummy-coded using <em>California</em> as the reference category to prevent the dummy variable trap. Recursive Feature Elimination (RFE) identified an optimal three-predictor model comprising <em>R&amp;D Spend</em>, <em>Marketing Spend</em>, and <em>Administration</em>.<br><br>
+          The selected model was statistically significant, with a validation <em>R</em><sup>2</sup> of .9623 (Validation RMSE = $8,857.98). Unstandardized regression coefficients revealed that <em>R&amp;D Spend</em> was the dominant positive predictor (<em>B</em> = 0.8060), followed by <em>Marketing Spend</em> (<em>B</em> = 0.0270), whereas <em>Administration</em> exhibited a negligible negative marginal coefficient (<em>B</em> = -0.0270). The geographic dummy variables contributed minimally (Florida: +$198.79, New York: -$41.89 relative to California). Multicollinearity diagnostics revealed that all Variance Inflation Factors (VIF) remained healthy between 1.20 and 2.15 (highest VIF = 2.1528 for Marketing Spend), well below 5.0. Independent holdout test evaluation (isolated 20%, <em>N</em> = 10) confirmed strong generalization (Holdout <em>R</em><sup>2</sup> = .9001, Holdout RMSE = $8,995.91, Holdout MAE = $6,979.15).
+        `;
+
+        extraDiv.innerHTML = `
+          <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--slate-900); margin-bottom: 0.85rem;">
+            🔍 50 Startups 核心營運與迴歸洞察 (Business & Econometric Insights)
+          </h3>
+          <div style="display: grid; gap: 0.85rem; font-size: 0.88rem; color: var(--slate-700);">
+            <div style="background: var(--slate-50); padding: 0.85rem; border-radius: var(--radius-md); border-left: 4px solid var(--primary);">
+              <strong>Q1: 哪一項營運支出對淨利潤的邊際回報率最高？</strong><br>
+              <strong>答：</strong> 研發支出 (R&amp;D Spend) 具備壓倒性的正向邊際效益，每投入 $1.00 美元約可帶來 $0.806 美元之利潤增長；市場行銷 (Marketing Spend) 每投入 $1.00 帶來約 $0.027 美元增長；而管理行政支出 (Administration) 與利潤呈現微幅負相關，增加行政開銷並無法推動利潤提升。
+            </div>
+            <div style="background: var(--slate-50); padding: 0.85rem; border-radius: var(--radius-md); border-left: 4px solid var(--success);">
+              <strong>Q2: 所在州別 (State) 虛擬變數如何編碼與解讀？</strong><br>
+              <strong>答：</strong> 採用「加州 (California)」作為參考基準組 (Reference Category, $D_{\\text{FL}}=0, D_{\\text{NY}}=0$)。佛羅里達州係數為 +$198.79，紐約州係數為 -$41.89。在控制研發、管理與行銷支出後，地理位置對利潤的影響在統計上與經濟規模上皆微乎其微。
+            </div>
+            <div style="background: var(--slate-50); padding: 0.85rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent);">
+              <strong>Q3: 樣本數僅 50 筆如何防範過擬合 (Overfitting)？</strong><br>
+              <strong>答：</strong> 採用特徵選擇（RFE 篩選出最具實質貢獻之 3 項特徵）、5 折交叉驗證，並在訓練集外完全獨立封存 20% (10 筆樣本) 作為外封測試集，外封測試集取得 $R^2 = 0.9001$ 之穩健泛化成效。
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function copyApaReport() {
+      const text = document.getElementById('apa-report-text').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('✅ APA 第七版統計報告已成功複製至剪貼簿！');
+      }).catch(err => {
+        alert('複製失敗，請手動選取文字複製。');
+      });
+    }
+
+    // -------------------------------------------------------------------------
+    // 11. INITIALIZATION ON PAGE LOAD
+    // -------------------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      onProjectChange('flood');
+    });
+  </script>
+</body>
+</html>
